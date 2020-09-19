@@ -14,10 +14,10 @@ PROCESS_THREAD(hello_world_process, ev, data)
     PROCESS_BEGIN(); /* Must always come first */
 
     static struct etimer timer;
-    button_hal_button_t *btn;
+    // button_hal_button_t *btn;
 
     printf("Hello, world");
-    btn = button_hal_get_by_index(0);
+    // btn = button_hal_get_by_index(0);
 
     /* Setup a periodic timer that expires after 10 seconds. */
     etimer_set(&timer, CLOCK_SECOND * 15);

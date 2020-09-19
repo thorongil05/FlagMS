@@ -18,8 +18,8 @@ PROCESS_THREAD(hello_world_process, ev, data)
 
     // btn = button_hal_get_by_index(0);
 
-    /* Setup a periodic timer that expires after 15 seconds. */
-    etimer_set(&timer, CLOCK_SECOND * 15);
+    /* Setup a periodic timer that expires after 10 seconds. */
+    etimer_set(&timer, CLOCK_SECOND * 10);
     printf("Hello, world\n");
     static int i = 0;
     while(1) {
@@ -27,7 +27,7 @@ PROCESS_THREAD(hello_world_process, ev, data)
         /* Wait for the periodic timer to expire and then restart the timer. */
         PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&timer));
         
-        printf("Iteration Number: " + i);
+        printf("Iteration Number: %d\n", i);
         if(i == 10) {
             break;
         }

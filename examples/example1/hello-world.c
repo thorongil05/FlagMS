@@ -18,6 +18,13 @@ PROCESS_THREAD(hello_world_process, ev, data)
 
     btn = button_hal_get_by_index(0);
 
+    if(btn) { 
+        //Prints all the information about the button 
+        printf("%s on pin %u with ID=0, Logic=%s, Pull=%s\n", 
+            BUTTON_HAL_GET_DESCRIPTION(btn), btn->pin, btn->negative_logic ? "Negative" : "Positive",
+            btn->pull == GPIO_HAL_PIN_CFG_PULL_UP ? "Pull Up" : "Pull Down"); 
+    }
+
     /* Setup a periodic timer that expires after 10 seconds. */
     etimer_set(&timer, CLOCK_SECOND * 10);
     printf("Hello, world\n");

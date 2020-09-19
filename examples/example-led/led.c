@@ -20,16 +20,19 @@ PROCESS_THREAD(led_project_process, ev, data)
         char* input = (char*)data;
         printf("received: %s\n", input);
         if(strcmp(input, "green") == 0) {
-            leds_on(LEDS_NUM_TO_MASK(LEDS_GREEN))
+            leds_single_on(LEDS_GREEN);
         }
-        if(strcmp(input, "green") == 0) {
-            leds_on(LEDS_NUM_TO_MASK(LEDS_RED))
+        if(strcmp(input, "red") == 0) {
+            leds_single_on(LEDS_RED);
         }
-        if(strcmp(input, "green") == 0) {
-            leds_on(LEDS_NUM_TO_MASK(LEDS_YELLOW))
+        if(strcmp(input, "yellow") == 0) {
+            leds_single_on(LEDS_YELLOW);
         }
         if(strcmp(input, "all") == 0) {
-            leds_on(LEDS_ALL)
+            leds_on(LEDS_ALL);
+        }
+        if(strcmp(input, "shut") == 0) {
+            leds_off(LEDS_ALL);
         }
     }
     

@@ -33,11 +33,18 @@ PROCESS_THREAD(hello_world_process, ev, data)
         i++;
         /* Wait for the periodic timer to expire and then restart the timer. */
         PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&timer));
-        
         printf("Iteration Number: %d\n", i);
+        PROCESS_YIELD();
+        if(ev == button_hal_periodic_event) {
+            btn = (button_hal_button_t *)data;
+            printf("Periodic event, %u seconds \n", btn->press_duration_seconds);
+            if(btn->press_duration_seconds > 5) {
+                printf("Stopped\n");
+                break;
+            }
+        }
         if(ev == button_hal_press_event) {
-            printf("Stopped\n");
-            break;
+            printf("La geologia non è una vera scienza\n");
         }
         etimer_reset(&timer);
     }

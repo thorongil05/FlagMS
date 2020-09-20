@@ -5,7 +5,7 @@
 //IPv6 Libraries
 #include "net/ipv6/uip.h"
 #include "net/ipv6/uip-ds6.h"
-#include "net/ip/uip-debug.h"
+#include "net/ipv6/uip-debug.h"
 //Other libraries
 #include "sys/log.h"
 #include "sys/etimer.h" 
@@ -42,10 +42,10 @@ PROCESS(ipv6_proj, "ipv6-proj");
 AUTOSTART_PROCESSES(&ipv6_proj);
 
 PROCESS_THREAD(ipv6_proj, ev, data) {
+    PROCESS_BEGIN();
     static struct etimer periodic_timer;
 
     etimer_set(&periodic_timer, INTERVAL);
-    BEGIN_PROCESS();
     set_global_address();
     while (1) {
         PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
@@ -53,5 +53,5 @@ PROCESS_THREAD(ipv6_proj, ev, data) {
         print_all_addresses();
     }
 
-    END_PROCESS();
+    PROCESS_END();
 }

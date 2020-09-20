@@ -1,14 +1,15 @@
 #include "contiki.h"
 //Link layer communication libraries
-#include "net/netstack.h"
-#include "net/nullnet/nullnet.h"
+#include "os/net/nullnet/nullnet.h"
+#include "os/net/netstack.h"
+#include "net/linkaddr.h"
 //Default libraries
 #include <string.h>
 #include <stdio.h>
 //Other libraries
 #include "sys/log.h"
 #include "sys/etimer.h" 
-#include "net/linkaddr.h"
+
 
 #define LOG_MODULE "App"
 #define LOG_LEVEL LOG_LEVEL_INFO
@@ -54,11 +55,11 @@ PROCESS_THREAD(unicast_proj, ev, data) {
 
     if(linkaddr_node_addr.u8[0] == 2){
         nullnet_buf = (uint8_t *)bro_msg;
-        etimer_set(&broadcast_periodic_timer, SEND_INTERVAL_BRO);  
+        etimer_set(&broadcast_periodic_timer, SEND_INTERVAL_BROADCAST);  
     }
     if(linkaddr_node_addr.u8[0] == 3 || linkaddr_node_addr.u8[0] == 4) { 
         nullnet_buf = (uint8_t *)uni_msg;
-        etimer_set(&periodic_timer, SEND_INTERVAL);
+        etimer_set(&periodic_timer, SEND_INTERVAL_UNICAST);
     }
 
     while(1) {

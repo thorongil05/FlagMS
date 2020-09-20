@@ -1,7 +1,10 @@
-CONTIKI_PROJECT = link-layer-exercise
+CONTIKI_PROJECT = unicast-proj
 all: $(CONTIKI_PROJECT)
 
 CONTIKI = ../../../../
-include $(CONTIKI)/Makefile.include
+
+PLATFORMS_EXCLUDE = nrf52dk
 
 MAKE_NET = MAKE_NET_NULLNET
+
+include $(CONTIKI)/Makefile.include

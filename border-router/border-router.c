@@ -5,10 +5,13 @@
 #define LOG_MODULE "RPL BR"
 #define LOG_LEVEL LOG_LEVEL_INFO
 
+/* Declare and auto-start this file's process */
 PROCESS(contiki_ng_br, "Contiki-NG Border Router");
 AUTOSTART_PROCESSES(&contiki_ng_br);
 
-PROCESS_THREAD(contiki_ng_br, ev, data){
+/*---------------------------------------------------------------------------*/
+PROCESS_THREAD(contiki_ng_br, ev, data)
+{
   PROCESS_BEGIN();
 
 #if BORDER_ROUTER_CONF_WEBSERVER

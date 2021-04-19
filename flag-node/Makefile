@@ -1,7 +1,7 @@
 CONTIKI_PROJECT = device
 all: $(CONTIKI_PROJECT)
 CFLAGS += -DPROJECT_CONF_H=\"project-conf.h\"
-CONTIKI = ../../..
+CONTIKI = ../../../contiki-ng
 
 # Include optional target-specific module
 include $(CONTIKI)/Makefile.identify-target

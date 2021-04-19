@@ -3,6 +3,7 @@
 #include <string.h> 
 #include "contiki.h" 
 #include "coap-engine.h”
+
 /* Log configuration */
 #include "sys/log.h"
 
@@ -11,9 +12,10 @@
 
 /* Declare and auto-start this file's process */
 
-PROCESS(flag_process, "Contiki-NG Border Router and CoAP Server"); 
+PROCESS(flag_process, "Flag Process"); 
 AUTOSTART_PROCESSES(&flag_process);
 extern coap_resource_t res_flag;
+
 /*---------------------------------------------------------------------------*/
 PROCESS_THREAD(flag_process, ev, data){ 
     PROCESS_BEGIN();

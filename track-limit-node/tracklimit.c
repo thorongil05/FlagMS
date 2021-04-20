@@ -66,11 +66,13 @@ PROCESS_THREAD(tracklimit_process, ev, data){
 	char msg[4];
 	sprintf(msg,"%d",node_id);
 	coap_set_payload(request, (uint16_t * )msg, sizeof(msg)-1);
-	while(!registered){
-		LOG_DBG("Retrying registration..\n");
-		COAP_BLOCKING_REQUEST(&server_ep, request, client_chunk_handler);
-	}
-	LOG_DBG("Registered\n");
+    
+    //DECOMMENT
+	// while(!registered){
+	// 	LOG_DBG("Retrying registration..\n");
+	// 	COAP_BLOCKING_REQUEST(&server_ep, request, client_chunk_handler);
+	// }
+	LOG_DBG("Track Limit Sensor Registered\n");
 
     etimer_set(&timer,5 * CLOCK_SECOND);
     while(1) {
@@ -79,6 +81,8 @@ PROCESS_THREAD(tracklimit_process, ev, data){
         if(trackLimitCrossed) {
             LOG_DBG("A driver has crossed the limits");
             res_tracklimit.trigger();
+        } else {
+            LOG_DBG("No driver crossed the limit");
         }
         etimer_reset(&timer);
     }

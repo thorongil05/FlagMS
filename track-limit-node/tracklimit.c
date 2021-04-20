@@ -3,6 +3,9 @@
 #include <string.h> 
 #include "contiki.h" 
 #include "coap-engine.h"
+#include "coap-blocking-api.h"
+#include "coap-log.h"
+#include "sys/node-id.h"
 #include "sys/etimer.h"
 
 /* Log configuration */
@@ -10,7 +13,7 @@
 
 
 #define LOG_MODULE "track limit" 
-#define LOG_LEVEL LOG_LEVEL_APP
+#define LOG_LEVEL LOG_LEVEL_DBG
 
 /* Declare and auto-start this file's process */
 
@@ -23,6 +26,7 @@ extern coap_resource_t res_tracklimit;
 #define SERVER_EP "coap://[fd00::1]:5683"
 
 static struct etimer timer;
+bool registered = false;
 
 extern bool trackLimitCrossed;
 
@@ -72,7 +76,7 @@ PROCESS_THREAD(tracklimit_process, ev, data){
     while(1) {
         PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&timer));
         trackLimitCrossed = isCrossed();
-        if() {
+        if(trackLimitCrossed) {
             LOG_DBG("A driver has crossed the limits");
             res_tracklimit.trigger();
         }

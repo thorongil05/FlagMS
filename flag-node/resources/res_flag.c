@@ -14,7 +14,9 @@
 static void res_get_handler(coap_message_t *request, coap_message_t *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 static void res_event_handler(void);
 
-EVENT_RESOURCE(res_tracklimit,
+int actual_flag = 0;
+
+EVENT_RESOURCE(res_flag,
 	"title=\"Flag Actuator\";methods=\"GET\";rt=\"int\";obs\n",
 	res_get_handler,
 	NULL,
@@ -23,7 +25,7 @@ EVENT_RESOURCE(res_tracklimit,
 	res_event_handler);
 
 static void res_event_handler(void){
-	coap_notify_observers(&res_presence);
+	coap_notify_observers(&res_flag);
 }
 
 static void res_get_handler(coap_message_t *request, coap_message_t *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset){
@@ -43,12 +45,12 @@ static void res_get_handler(coap_message_t *request, coap_message_t *response, u
 
 	if(accept == APPLICATION_XML) {
 		coap_set_header_content_format(response, APPLICATION_XML);
- 		snprintf((char *)buffer, COAP_MAX_CHUNK_SIZE, "<presence=\"%d\"/>", presence);
+ 		snprintf((char *)buffer, COAP_MAX_CHUNK_SIZE, "<actual_flag=\"%d\"/>", actual_flag);
 		coap_set_payload(response, buffer, strlen((char *)buffer));
     	} 
 	else if(accept == APPLICATION_JSON) {
 		coap_set_header_content_format(response, APPLICATION_JSON);
-		snprintf((char *)buffer, COAP_MAX_CHUNK_SIZE, "{\"presence\":%d}", presence);
+		snprintf((char *)buffer, COAP_MAX_CHUNK_SIZE, "{\"actual_flag\":%d}", actual_flag);
 		coap_set_payload(response, buffer, strlen((char *)buffer));
 	}
 	else {

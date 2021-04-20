@@ -28,7 +28,7 @@ extern bool trackLimitCrossed;
 
 bool isCrossed() {
     int p = 1 + rand()%100;
-    return p < 10;
+    return p <= 10;
 }
 
 void client_chunk_handler(coap_message_t *response) {

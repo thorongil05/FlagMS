@@ -30,6 +30,7 @@ bool registered = false;
 
 extern bool trackLimitCrossed;
 
+// This function simulates a crossing of the track with a 10% of chance
 bool isCrossed() {
     int p = 1 + rand()%100;
     LOG_DBG("Random Value p: " + p);

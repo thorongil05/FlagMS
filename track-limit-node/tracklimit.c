@@ -32,6 +32,7 @@ extern bool trackLimitCrossed;
 
 bool isCrossed() {
     int p = 1 + rand()%100;
+    LOG_DBG("Random Value p: " + p);
     return p <= 10;
 }
 
@@ -79,10 +80,10 @@ PROCESS_THREAD(tracklimit_process, ev, data){
         PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&timer));
         trackLimitCrossed = isCrossed();
         if(trackLimitCrossed) {
-            LOG_DBG("A driver has crossed the limits");
+            LOG_INFO("A driver has crossed the limits");
             res_tracklimit.trigger();
         } else {
-            LOG_DBG("No driver crossed the limit");
+            LOG_INFO("No driver crossed the limit");
         }
         etimer_reset(&timer);
     }

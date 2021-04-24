@@ -40,22 +40,7 @@ bool isCrossed() {
 }
 
 void trackLimitCrossedHandler(coap_resource_t res_tracklimit, struct etimer yellowFlagTimer, bool isPersistentFlag) {
-    trackLimitCrossed = isCrossed();
-    if(trackLimitCrossed) {
-        LOG_INFO("A driver has crossed the limits\n");
-        leds_set(LEDS_NUM_TO_MASK(LEDS_YELLOW));
-        if(!isPersistentFlag) {
-            etimer_set(&yellowFlagTimer, 20 * CLOCK_SECOND);
-        }
-        res_tracklimit.trigger();
-    } else {
-        LOG_INFO("No driver crossed the limit\n");
-        if(leds_get() == 1) {
-            LOG_INFO("The flag is already yellow!\n");
-        } else {
-            leds_set(LEDS_NUM_TO_MASK(LEDS_GREEN));
-        }
-    }
+    
 }
 
 /*---------------------------------------------------------------------------*/
@@ -102,8 +87,22 @@ PROCESS_THREAD(flag_process, ev, data){
         PROCESS_WAIT_EVENT();
         if(ev == PROCESS_EVENT_TIMER) {
             if(etimer_expired(&sensorTimer)) {
-                //Check of the sensor to see if a car is off-track.
-                trackLimitCrossedHandler(res_tracklimit, yellowFlagTimer, isPersistentFlag);
+                trackLimitCrossed = isCrossed();
+                if(trackLimitCrossed) {
+                    LOG_INFO("A driver has crossed the limits\n");
+                    leds_set(LEDS_NUM_TO_MASK(LEDS_YELLOW));
+                    if(!isPersistentFlag) {
+                        etimer_set(&yellowFlagTimer, 20 * CLOCK_SECOND);
+                    }
+                    res_tracklimit.trigger();
+                } else {
+                    LOG_INFO("No driver crossed the limit\n");
+                    if(leds_get() == LEDS_NUM_TO_MASK(LEDS_YELLOW)) {
+                        LOG_INFO("The flag is already yellow!\n");
+                    } else {
+                        leds_set(LEDS_NUM_TO_MASK(LEDS_GREEN));
+                    }
+                }
             }
             if(etimer_expired(&yellowFlagTimer)) {
                 // When the yellow flag timer is end, it means that the track is clean.

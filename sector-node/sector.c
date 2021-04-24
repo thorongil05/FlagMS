@@ -8,7 +8,7 @@
 /* Log configuration */
 #include "sys/log.h"
 
-#define LOG_MODULE "App" 
+#define LOG_MODULE "main" 
 #define LOG_LEVEL LOG_LEVEL_DBG
 
 
@@ -21,10 +21,12 @@ extern coap_resource_t res_flag;
 extern coap_resource_t res_tracklimit;
 extern process_event_t POST_EVENT;
 
+extern bool trackLimitCrossed;
+
 static struct etimer sensorTimer;
 
-static int yellowFlagDefaultDuration = 20;
-static bool isPersistentFlag = false;
+// static int yellowFlagDefaultDuration = 20;
+// static bool isPersistentFlag = false;
 
 // This function simulates a crossing of the track with a 10% of chance
 bool isCrossed() {

@@ -27,8 +27,6 @@ extern process_event_t POST_EVENT;
 
 extern bool trackLimitCrossed;
 
-static struct etimer sensorTimer;
-
 #define SERVER_EP "coap://[fd00::1]:5683"
 
 // static int yellowFlagDefaultDuration = 20;
@@ -41,10 +39,24 @@ bool isCrossed() {
     return p <= 10;
 }
 
+void trackLimitCrossedHandler(coap_resource_t res_track_limit) {
+    trackLimitCrossed = isCrossed();
+    if(trackLimitCrossed) {
+        LOG_INFO("A driver has crossed the limits");
+        leds_set(LEDS_NUM_TO_MASK(LEDS_YELLOW));
+        res_tracklimit.trigger();
+    } else {
+        LOG_INFO("No driver crossed the limit");
+        leds_set(LEDS_NUM_TO_MASK(LEDS_GREEN));
+    }
+}
+
 /*---------------------------------------------------------------------------*/
 PROCESS_THREAD(flag_process, ev, data){
 
     LOG_INFO("Starting...\n");
+
+    static struct etimer sensorTimer;
 
     static coap_endpoint_t server_ep;
 	static coap_message_t request[1];
@@ -79,14 +91,13 @@ PROCESS_THREAD(flag_process, ev, data){
     etimer_set(&sensorTimer,10 * CLOCK_SECOND);
 
     while(true) {
-        PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&sensorTimer));
-        trackLimitCrossed = isCrossed();
-        if(trackLimitCrossed) {
-            LOG_INFO("A driver has crossed the limits");
-            res_tracklimit.trigger();
-        } else {
-            LOG_INFO("No driver crossed the limit");
+        PROCESS_WAIT_EVENT();
+        if(ev == PROCESS_EVENT_TIMER) {
+            if(etimer_expired(&sensorTimer)) {
+                trackLimitCrossedHandler(res_track_limit);
+            }
         }
+        
     }
 
     PROCESS_END(); 

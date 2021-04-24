@@ -12,7 +12,7 @@
 #include "sys/log.h"
 #include "coap-log.h"
 
-#define LOG_MODULE "main" 
+#define LOG_MODULE "App" 
 #define LOG_LEVEL LOG_LEVEL_DBG
 
 
@@ -35,18 +35,18 @@ extern bool trackLimitCrossed;
 // This function simulates a crossing of the track with a 10% of chance
 bool isCrossed() {
     int p = 1 + rand()%100;
-    LOG_DBG("Random Value p: " + p);
+    LOG_DBG("Random Value p: %d\n",p);
     return p <= 10;
 }
 
 void trackLimitCrossedHandler(coap_resource_t res_track_limit) {
     trackLimitCrossed = isCrossed();
     if(trackLimitCrossed) {
-        LOG_INFO("A driver has crossed the limits");
+        LOG_INFO("A driver has crossed the limits\n");
         leds_set(LEDS_NUM_TO_MASK(LEDS_YELLOW));
         res_tracklimit.trigger();
     } else {
-        LOG_INFO("No driver crossed the limit");
+        LOG_INFO("No driver crossed the limit\n");
         leds_set(LEDS_NUM_TO_MASK(LEDS_GREEN));
     }
 }
@@ -54,14 +54,14 @@ void trackLimitCrossedHandler(coap_resource_t res_track_limit) {
 /*---------------------------------------------------------------------------*/
 PROCESS_THREAD(flag_process, ev, data){
 
-    LOG_INFO("Starting...\n");
-
     static struct etimer sensorTimer;
 
     static coap_endpoint_t server_ep;
 	static coap_message_t request[1];
 
     PROCESS_BEGIN();
+	LOG_INFO("Starting...\n");	
+
 
     coap_activate_resource(&res_flag, "res_flag");
     coap_activate_resource(&res_tracklimit, "res_tracklimit");
@@ -94,10 +94,10 @@ PROCESS_THREAD(flag_process, ev, data){
         PROCESS_WAIT_EVENT();
         if(ev == PROCESS_EVENT_TIMER) {
             if(etimer_expired(&sensorTimer)) {
-                trackLimitCrossedHandler(res_track_limit);
+                trackLimitCrossedHandler(res_tracklimit);
             }
         }
-        
+        etimer_reset(&sensorTimer);
     }
 
     PROCESS_END(); 

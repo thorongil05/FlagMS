@@ -92,7 +92,7 @@ PROCESS_THREAD(flag_process, ev, data){
                     LOG_INFO("A driver has crossed the limits\n");
                     leds_set(LEDS_NUM_TO_MASK(LEDS_YELLOW));
                     if(!isPersistentFlag) {
-                        etimer_set(&yellowFlagTimer, 20 * CLOCK_SECOND);
+                        LOG_INFO("The flag is temporarily\n");
                     }
                     res_tracklimit.trigger();
                 } else {

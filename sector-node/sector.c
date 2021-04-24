@@ -30,7 +30,7 @@ extern bool trackLimitCrossed;
 #define SERVER_EP "coap://[fd00::1]:5683"
 
 // static int yellowFlagDefaultDuration = 20;
-// static bool isPersistentFlag = false;
+static bool isPersistentFlag = false;
 
 // This function simulates a crossing of the track with a 10% of chance
 bool isCrossed() {
@@ -39,15 +39,22 @@ bool isCrossed() {
     return p <= 10;
 }
 
-void trackLimitCrossedHandler(coap_resource_t res_track_limit) {
+void trackLimitCrossedHandler(coap_resource_t res_tracklimit, etimer yellowFlagTimer, bool isPersistentFlag) {
     trackLimitCrossed = isCrossed();
     if(trackLimitCrossed) {
         LOG_INFO("A driver has crossed the limits\n");
         leds_set(LEDS_NUM_TO_MASK(LEDS_YELLOW));
+        if(!isPersistentFlag) {
+            etimer_set(&yellowFlagTimer, 20 * CLOCK_SECOND);
+        }
         res_tracklimit.trigger();
     } else {
         LOG_INFO("No driver crossed the limit\n");
-        leds_set(LEDS_NUM_TO_MASK(LEDS_GREEN));
+        if(leds_get() == 1) {
+            LOG_INFO("The flag is already yellow!\n");
+        } else {
+            leds_set(LEDS_NUM_TO_MASK(LEDS_GREEN));
+        }
     }
 }
 
@@ -55,6 +62,7 @@ void trackLimitCrossedHandler(coap_resource_t res_track_limit) {
 PROCESS_THREAD(flag_process, ev, data){
 
     static struct etimer sensorTimer;
+    static struct etimer yellowFlagTimer;
 
     static coap_endpoint_t server_ep;
 	static coap_message_t request[1];
@@ -94,7 +102,13 @@ PROCESS_THREAD(flag_process, ev, data){
         PROCESS_WAIT_EVENT();
         if(ev == PROCESS_EVENT_TIMER) {
             if(etimer_expired(&sensorTimer)) {
-                trackLimitCrossedHandler(res_tracklimit);
+                //Check of the sensor to see if a car is off-track.
+                trackLimitCrossedHandler(res_tracklimit, yellowFlagTimer, isPersistentFlag);
+            }
+            if(etimer_expired(&yellowFlagTimer)) {
+                // When the yellow flag timer is end, it means that the track is clean.
+                LOG_INFO("Track clean. Green Flag.\n");
+                leds_set(LEDS_NUM_TO_MASK(LEDS_GREEN));
             }
         }
         etimer_reset(&sensorTimer);

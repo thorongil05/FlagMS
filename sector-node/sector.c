@@ -1,12 +1,16 @@
 #include <stdio.h> 
 #include <stdlib.h> 
-#include <string.h> 
+#include <string.h>
+//#include "sys/node-id.h"
 #include "contiki.h" 
 #include "coap-engine.h"
+#include "coap-blocking-api.h"
 #include "os/dev/leds.h"
+#include "sys/etimer.h"
 
 /* Log configuration */
 #include "sys/log.h"
+#include "coap-log.h"
 
 #define LOG_MODULE "main" 
 #define LOG_LEVEL LOG_LEVEL_DBG
@@ -24,6 +28,8 @@ extern process_event_t POST_EVENT;
 extern bool trackLimitCrossed;
 
 static struct etimer sensorTimer;
+
+#define SERVER_EP "coap://[fd00::1]:5683"
 
 // static int yellowFlagDefaultDuration = 20;
 // static bool isPersistentFlag = false;
@@ -57,7 +63,7 @@ PROCESS_THREAD(flag_process, ev, data){
 	coap_set_header_uri_path(request, "registration");
     // Set the payload (if needed)
 	char msg[4];
-	sprintf(msg,"%d",node_id);
+	//sprintf(msg,"%d",node_id);
 	coap_set_payload(request, (uint16_t * )msg, sizeof(msg)-1);
 
     /*

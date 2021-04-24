@@ -39,7 +39,7 @@ bool isCrossed() {
     return p <= 10;
 }
 
-void trackLimitCrossedHandler(coap_resource_t res_tracklimit, etimer yellowFlagTimer, bool isPersistentFlag) {
+void trackLimitCrossedHandler(coap_resource_t res_tracklimit, struct etimer yellowFlagTimer, bool isPersistentFlag) {
     trackLimitCrossed = isCrossed();
     if(trackLimitCrossed) {
         LOG_INFO("A driver has crossed the limits\n");
@@ -62,7 +62,7 @@ void trackLimitCrossedHandler(coap_resource_t res_tracklimit, etimer yellowFlagT
 PROCESS_THREAD(flag_process, ev, data){
 
     static struct etimer sensorTimer;
-    static struct etimer yellowFlagTimer;
+	static struct etimer yellowFlagTimer;
 
     static coap_endpoint_t server_ep;
 	static coap_message_t request[1];

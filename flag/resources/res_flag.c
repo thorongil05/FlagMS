@@ -12,6 +12,7 @@
 #define LOG_LEVEL LOG_LEVEL_DBG
 
 static void res_get_handler(coap_message_t *request, coap_message_t *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
+static void res_post_handler(coap_message_t *request, coap_message_t *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 static void res_event_handler(void);
 
 int actual_flag = 0;
@@ -70,7 +71,7 @@ static void res_post_handler(coap_message_t *request, coap_message_t *response, 
 	size_t len = 0;
 
 	const char* flag = NULL;
-	const int* seconds = NULL; 
+	const char* seconds = NULL; 
 
 	if(coap_get_post_variable(request, "flag", &flag) && 
 	coap_get_post_variable(request, "seconds", &seconds)) {

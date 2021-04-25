@@ -28,7 +28,7 @@ extern bool trackLimitCrossed;
 #define SERVER_EP "coap://[fd00::1]:5683"
 
 // static int yellowFlagDefaultDuration = 20;
-static bool isPersistentFlag = false;
+// static bool isPersistentFlag = false;
 
 // This function simulates a crossing of the track with a 10% of chance
 bool isCrossed() {

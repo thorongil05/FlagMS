@@ -29,12 +29,12 @@ extern bool trackLimitCrossed;
 #define SERVER_EP "coap://[fd00::1]:5683"
 
 // static int yellowFlagDefaultDuration = 20;
-static bool isPersistentFlag = false;
+// static bool isPersistentFlag = false;
 
 /*---------------------------------------------------------------------------*/
 PROCESS_THREAD(flag_process, ev, data){
 
-	static struct etimer yellowFlagTimer;
+	//static struct etimer yellowFlagTimer;
 
     static coap_endpoint_t server_ep;
 	static coap_message_t request[1];

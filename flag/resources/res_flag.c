@@ -17,9 +17,9 @@ static void res_event_handler(void);
 int actual_flag = 0;
 
 EVENT_RESOURCE(res_flag,
-	"title=\"Flag Actuator\";methods=\"GET\";rt=\"int\";obs\n",
+	"title=\"Flag Actuator POST flag=<color>&seconds=<time> n\";methods=\"GET, POST \";rt=\"int\";obs\n",
 	res_get_handler,
-	NULL,
+	res_post_handler,
     NULL,
 	NULL,
 	res_event_handler);
@@ -58,5 +58,36 @@ static void res_get_handler(coap_message_t *request, coap_message_t *response, u
 		const char *msg = "Supporting content-type application/json";
 		coap_set_payload(response, msg, strlen(msg));
   	}
+
+}
+
+static void res_post_handler(coap_message_t *request, coap_message_t *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset) {
+
+	if(request!=NULL){
+		LOG_DBG("Received POST\n");
+	}
+
+	size_t len = 0;
+
+	const char* flag = NULL;
+	const int* seconds = NULL; 
+
+	if(coap_get_post_variable(request, "flag", &flag) && 
+	coap_get_post_variable(request, "seconds", &seconds)) {
+		LOG_INFO("New flag %s with %d\n", flag, seconds);
+		if(strncmp(flag, "green", len) == 0) {
+			LOG_INFO("The new flag is green\n");
+			leds_set(LEDS_NUM_TO_MASK(LEDS_GREEN));
+		}
+		if(strncmp(flag, "yellow", len) == 0) {
+			LOG_INFO("The new flag is yellow\n");
+			leds_set(LEDS_NUM_TO_MASK(LEDS_YELLOW));
+		}
+		if(strncmp(flag, "red", len) == 0) {
+			LOG_INFO("The new flag is red\n");
+			leds_set(LEDS_NUM_TO_MASK(LEDS_RED));
+		}
+		coap_set_status_code(response, CHANGED_2_04);
+	}
 
 }

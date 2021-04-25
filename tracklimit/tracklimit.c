@@ -12,7 +12,7 @@
 #include "sys/log.h"
 #include "coap-log.h"
 
-#define LOG_MODULE "App" 
+#define LOG_MODULE "Tracklimit" 
 #define LOG_LEVEL LOG_LEVEL_DBG
 
 

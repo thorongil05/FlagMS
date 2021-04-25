@@ -70,6 +70,9 @@ PROCESS_THREAD(flag_process, ev, data){
 
     while(true) {
         PROCESS_WAIT_EVENT();
+        if(ev == POST_EVENT) {
+            
+        }
     }
 
     PROCESS_END(); 

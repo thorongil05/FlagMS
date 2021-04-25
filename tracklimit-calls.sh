@@ -1,0 +1,1 @@
+coap-client -m get coap://[fd00::202:2:2:2]/res_tracklimit -e mode=on

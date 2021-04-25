@@ -25,7 +25,7 @@ EVENT_RESOURCE(res_tracklimit,
 	res_event_handler);
 
 static void res_event_handler(void){
-	LOG_DBG("Sending notification");
+	LOG_DBG("Sending notification\n");
 	coap_notify_observers(&res_tracklimit);
 }
 
@@ -43,7 +43,7 @@ static void res_get_handler(coap_message_t *request, coap_message_t *response, u
 
 	if(accept == TEXT_PLAIN) {
 	    coap_set_header_content_format(response, TEXT_PLAIN);
-	    snprintf((char *)buffer, COAP_MAX_CHUNK_SIZE, "value=%d", hum_value);
+	    snprintf((char *)buffer, COAP_MAX_CHUNK_SIZE, "value=%d", trackLimitCrossed);
 	    coap_set_payload(response, (uint8_t *)buffer, strlen((char *)buffer));    
 	} else if(accept == APPLICATION_XML) {
 		coap_set_header_content_format(response, APPLICATION_XML);

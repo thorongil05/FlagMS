@@ -68,32 +68,32 @@ static void res_post_handler(coap_message_t *request, coap_message_t *response, 
 		LOG_DBG("Received POST\n");
 	}
 
-	size_t len = 0;
+	size_t len_flag_parameter;
+	size_t len_seconds_parameters;
 
 	const char* flag = NULL;
 	const char* seconds = NULL; 
 
-	int post_variable_flag_res = coap_get_post_variable(request, "flag", &flag);
-	int post_variable_seconds_res = coap_get_post_variable(request, "seconds", &seconds);
-
-	LOG_DBG("Flag variable read: %d\n", post_variable_flag_res);
-	LOG_DBG("Seconds variable read: %d\n", post_variable_seconds_res);
+	len_flag_parameter = coap_get_post_variable(request, "flag", &flag);
+	len_seconds_parameters = coap_get_post_variable(request, "seconds", &seconds);
 
 	if(post_variable_flag_res && post_variable_seconds_res) {
 		
-		if(strncmp(flag, "green", len) == 0) {
+		if(strncmp(flag, "green", len_flag_parameter) == 0) {
 			LOG_INFO("The new flag is green\n");
 			leds_set(LEDS_NUM_TO_MASK(LEDS_GREEN));
 		}
-		if(strncmp(flag, "yellow", len) == 0) {
+		if(strncmp(flag, "yellow", len_flag_parameter) == 0) {
 			LOG_INFO("The new flag is yellow\n");
 			leds_set(LEDS_NUM_TO_MASK(LEDS_YELLOW));
 		}
-		if(strncmp(flag, "red", len) == 0) {
+		if(strncmp(flag, "red", len_flag_parameter) == 0) {
 			LOG_INFO("The new flag is red\n");
 			leds_set(LEDS_NUM_TO_MASK(LEDS_RED));
 		}
 		coap_set_status_code(response, CHANGED_2_04);
+	} else {
+		coap_set_status_code(response, BAD_REQUEST_4_00);
 	}
 
 }

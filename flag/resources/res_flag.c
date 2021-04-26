@@ -8,7 +8,7 @@
 
 #include "sys/log.h"
 
-#define LOG_MODULE "main"
+#define LOG_MODULE "Flag Actuator"
 #define LOG_LEVEL LOG_LEVEL_DBG
 
 static void res_get_handler(coap_message_t *request, coap_message_t *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
@@ -79,8 +79,15 @@ static void res_post_handler(coap_message_t *request, coap_message_t *response, 
 	LOG_DBG("Flag variable read: %d\n", post_variable_flag_res);
 	LOG_DBG("Seconds variable read: %d\n", post_variable_seconds_res);
 	
+	if(post_variable_flag_res) {
+		LOG_DBG("Flag variable %s\n", flag);
+	}
+	if(post_variable_seconds_res) {
+		LOG_DBG("Seconds variable %s\n", seconds);
+	}
+
 	if(post_variable_flag_res && post_variable_seconds_res) {
-		LOG_INFO("New flag %s with %d\n", flag, seconds);
+		
 		if(strncmp(flag, "green", len) == 0) {
 			LOG_INFO("The new flag is green\n");
 			leds_set(LEDS_NUM_TO_MASK(LEDS_GREEN));

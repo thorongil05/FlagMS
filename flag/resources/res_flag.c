@@ -73,8 +73,13 @@ static void res_post_handler(coap_message_t *request, coap_message_t *response, 
 	const char* flag = NULL;
 	const char* seconds = NULL; 
 
-	if(coap_get_post_variable(request, "flag", &flag) && 
-	coap_get_post_variable(request, "seconds", &seconds)) {
+	int post_variable_flag_res = coap_get_post_variable(request, "flag", &flag);
+	int post_variable_seconds_res = coap_get_post_variable(request, "seconds", &seconds);
+
+	LOG_DBG("Flag variable read: %d\n", post_variable_flag_res);
+	LOG_DBG("Seconds variable read: %d\n", post_variable_seconds_res);
+	
+	if(post_variable_flag_res && post_variable_seconds_res) {
 		LOG_INFO("New flag %s with %d\n", flag, seconds);
 		if(strncmp(flag, "green", len) == 0) {
 			LOG_INFO("The new flag is green\n");

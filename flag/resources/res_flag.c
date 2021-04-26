@@ -79,7 +79,7 @@ static void res_post_handler(coap_message_t *request, coap_message_t *response, 
 	LOG_DBG("Flag variable read: %d\n", post_variable_flag_res);
 	LOG_DBG("Seconds variable read: %d\n", post_variable_seconds_res);
 	
-	if(post_variable_flag_res) {
+	if(post_variable_flag_res == 0) {
 		LOG_DBG("Flag variable %s\n", flag);
 	}
 	if(post_variable_seconds_res) {

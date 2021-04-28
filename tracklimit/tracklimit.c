@@ -62,11 +62,9 @@ PROCESS_THREAD(tracklimit_process, ev, data){
 	//sprintf(msg,"%d",node_id);
 	coap_set_payload(request, (uint16_t * )msg, sizeof(msg)-1);
 
-    /*
 	while(!registered){	
 		COAP_BLOCKING_REQUEST(&server_ep, request, client_chunk_handler);	
     }
-    */
 
     etimer_set(&sensorTimer,10 * CLOCK_SECOND);
 

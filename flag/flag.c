@@ -57,11 +57,9 @@ PROCESS_THREAD(flag_process, ev, data){
 	//sprintf(msg,"%d",node_id);
 	coap_set_payload(request, (uint16_t * )msg, sizeof(msg)-1);
 
-    /*
 	while(!registered){	
 		COAP_BLOCKING_REQUEST(&server_ep, request, client_chunk_handler);	
-    }
-    */
+    }    
 
     LOG_INFO("Init leds to green...\n");
 

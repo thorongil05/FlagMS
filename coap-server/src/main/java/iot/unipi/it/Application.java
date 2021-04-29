@@ -20,10 +20,12 @@ public class Application {
 		
 		System.out.println("Welcome");
 		
+		
+		runServer();
+
+		System.out.println("Server started");
 		System.out.println("Registration...");
-		
-		
-		//runServer();
+
 		
 		showMenu();
 		

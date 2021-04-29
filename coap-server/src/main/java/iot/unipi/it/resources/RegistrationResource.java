@@ -56,7 +56,7 @@ public class RegistrationResource extends CoapResource {
 					
 					if (name.contains("flag")) {
 						Flag newFlag = new Flag(name, path, addr.getHostAddress(), obs);
-						Application.getSharedInstance().getFlagsMap().put(info, newFlag);
+						Application.getSharedInstance().getFlagsMap().put(name, newFlag);
 						System.out.println("\n"+name+" registered");
 					} else {
 						TrackLimit newTracklimit = new TrackLimit(name, path, addr.getHostAddress(), obs);

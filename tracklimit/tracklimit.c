@@ -15,7 +15,6 @@
 #define LOG_MODULE "Tracklimit" 
 #define LOG_LEVEL LOG_LEVEL_DBG
 
-
 /* Declare and auto-start this file's process */
 
 PROCESS(tracklimit_process, "Flag Process"); 
@@ -25,7 +24,25 @@ extern coap_resource_t res_tracklimit;
 
 extern bool trackLimitCrossed;
 
+bool registered = false;
+
 #define SERVER_EP "coap://[fd00::1]:5683"
+
+void client_chunk_handler(coap_message_t *response){
+  
+	const uint8_t *chunk;
+
+	if(response == NULL) {
+		puts("Request timed out");
+	return;
+	}
+
+	if(!registered)
+	registered = true;
+
+	int len = coap_get_payload(response, &chunk);
+	printf("|%.*s", len, (char *)chunk);
+}
 
 // static int yellowFlagDefaultDuration = 20;
 // static bool isPersistentFlag = false;

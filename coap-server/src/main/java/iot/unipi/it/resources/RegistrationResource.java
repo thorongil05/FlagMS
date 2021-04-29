@@ -54,7 +54,7 @@ public class RegistrationResource extends CoapResource {
 						}
 					}
 					
-					Resource newRes = new Resource("Name", path, obs);
+					Resource newRes = new Resource("Name", path, addr.getHostAddress(), obs);
 					
 					Application.getSharedInstance().getResourceMap().put(name,newRes);
 					

@@ -96,6 +96,9 @@ public class Application {
 	public void showMenu() {
 		System.out.print("\nPlease, insert a command: \n"
 				+ "1 - Show Registered Resources.\n"
+				+ "2 - Check flag color"
+				+ "3 - Set flag color"
+				+ ""
 				+ "0 - Exit.\n"
 				+ "\n"
 				+ ">> ");

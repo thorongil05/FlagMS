@@ -129,7 +129,7 @@ public class Application {
 				return;
 			}
 			CoapClient flagClient = new CoapClient(flag.getCoapURI());
-			CoapResponse response = flagClient.post("color=red&seconds=10", MediaTypeRegistry.TEXT_PLAIN);
+			CoapResponse response = flagClient.post("flag=red&seconds=10", MediaTypeRegistry.TEXT_PLAIN);
 			String code = response.getCode().toString();
 			if(!code.startsWith("2")) {
 				System.err.println("Error:"+code);

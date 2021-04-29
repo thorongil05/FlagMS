@@ -30,6 +30,8 @@ public class RegistrationResource extends CoapResource {
 		
 		String responseText = response.getResponseText();
 		
+		System.out.println("Response: " + responseText);
+		
 		String[] resources = responseText.split(",");
 		
 		for(int i = 1; i < resources.length; i++) {

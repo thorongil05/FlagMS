@@ -4,9 +4,12 @@ public class Resource {
 	
 	private String name;
     private String path;
+    private boolean observable;
     
-    public Resource(String name, String path) {
+    public Resource(String name, String path, boolean observable) {
+    	this.name = name;
     	this.path = path;
+    	this.observable = observable;
 	}
     
     public String getName() {
@@ -16,5 +19,9 @@ public class Resource {
     public String getPath() {
 		return path;
 	}
+    
+    public boolean isObservable() {
+    	return this.observable;
+    }
     
 }

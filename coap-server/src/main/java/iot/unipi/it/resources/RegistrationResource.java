@@ -37,11 +37,12 @@ public class RegistrationResource extends CoapResource {
 		for(int i = 1; i < resources.length; i++) {
 			//1 because the first one is </.well-known/core>;ct=40
 			try {
+				
 				String[] parameters = resources[i].split(";");
 				
-				String path = parameters[0].split("<")[1].split(">")[0];
+				String path = parameters[0].split("<")[1].replace(">", "");
 				//System.out.println("PATH "+ path);
-				String name = path.split("/")[1];
+				String name = path.replace("/", "");
 				
 				String info = parameters[1]+";"+parameters[2];
 				
@@ -52,7 +53,7 @@ public class RegistrationResource extends CoapResource {
 					}
 				}
 				
-				Resource newRes = new Resource("Name", path);
+				Resource newRes = new Resource("Name", path, obs);
 				
 				Application.getResourceMap().put(name,newRes);
 				

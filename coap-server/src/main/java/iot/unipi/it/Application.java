@@ -108,7 +108,7 @@ public class Application {
 		}
 		System.out.println("Available Track Flags: ");
 		for(Map.Entry<String,Flag> entry : flagsMap.entrySet()) {
-			System.out.println(entry.getValue().toString());
+			System.out.println(entry.getKey() + ": " + entry.getValue().toString());
 		}
 	}
 	

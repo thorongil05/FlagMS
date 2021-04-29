@@ -40,29 +40,30 @@ public class RegistrationResource extends CoapResource {
 				
 				String[] parameters = resources[i].split(";");
 				
-				String path = parameters[0].split("<")[1].replace(">", "");
-				//System.out.println("PATH "+ path);
-				String name = path.replace("/", "");
-				
-				String info = parameters[1]+";"+parameters[2];
-				
-				boolean obs = false;
-				if(parameters.length>3) {
-					if(parameters[3].contains("obs")) {
-					obs = true;
+				if(parameters.length > 0 && parameters[0].split("<").length > 1) {
+					String path = parameters[0].split("<")[1].replace(">", "");
+					//System.out.println("PATH "+ path);
+					String name = path.replace("/", "");
+					
+					String info = parameters[1]+";"+parameters[2];
+					
+					boolean obs = false;
+					if(parameters.length>3) {
+						if(parameters[3].contains("obs")) {
+						obs = true;
+						}
 					}
+					
+					Resource newRes = new Resource("Name", path, obs);
+					
+					Application.getResourceMap().put(name,newRes);
+					
+//					if(obs==true) {
+//						Interface.observedResources.put(name, new ObservingCoapClient(newRes));	
+//						Interface.observedResources.get(name).startObserving();
+//					}
+					System.out.println("\n"+name+" registered");
 				}
-				
-				Resource newRes = new Resource("Name", path, obs);
-				
-				Application.getResourceMap().put(name,newRes);
-				
-//				if(obs==true) {
-//					Interface.observedResources.put(name, new ObservingCoapClient(newRes));	
-//					Interface.observedResources.get(name).startObserving();
-//				}
-				System.out.println("\n"+name+" registered");
-				
 				
 			}catch(Exception e) {
 				e.printStackTrace();

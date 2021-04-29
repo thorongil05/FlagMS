@@ -77,7 +77,7 @@ static void res_post_handler(coap_message_t *request, coap_message_t *response, 
 	len_flag_parameter = coap_get_post_variable(request, "flag", &flag);
 	len_seconds_parameters = coap_get_post_variable(request, "seconds", &seconds);
 
-	if(post_variable_flag_res && post_variable_seconds_res) {
+	if(len_flag_parameter && len_seconds_parameters) {
 		
 		if(strncmp(flag, "green", len_flag_parameter) == 0) {
 			LOG_INFO("The new flag is green\n");

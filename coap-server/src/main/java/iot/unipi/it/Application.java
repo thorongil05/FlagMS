@@ -6,7 +6,9 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
+import iot.unipi.it.model.Flag;
 import iot.unipi.it.model.Resource;
+import iot.unipi.it.model.TrackLimit;
 
 public class Application {
 	
@@ -17,10 +19,15 @@ public class Application {
 		return sharedInstance;
 	}
 	
-	private Map<String, Resource> resourceMap = new HashMap<String, Resource>();
+	private Map<String, TrackLimit> tracklimitsMap = new HashMap<String, TrackLimit>();
+	private Map<String, Flag> flagsMap = new HashMap<String, Flag>();
 	
-	public Map<String, Resource> getResourceMap() {
-		return resourceMap;
+	public Map<String, TrackLimit> getTracklimitsMap() {
+		return tracklimitsMap;
+	}
+	
+	public Map<String, Flag> getFlagsMap() {
+		return flagsMap;
 	}
 	
 
@@ -39,7 +46,19 @@ public class Application {
 			int cmd = getCommand();
 			switch(cmd) {
 				case 1:
-					showAvailableResources();
+					showAvailableTracklimits();
+					showMenu();
+					break;
+				case 2:
+					showAvailableFlags();
+					showMenu();
+					break;
+				case 3:
+					checkFlagColor();
+					showMenu();
+					break;
+				case 4:
+					changeFlagColor();
 					showMenu();
 					break;
 				case 0:
@@ -67,15 +86,34 @@ public class Application {
 	
 	// Menu stuff
 	
-	private void showAvailableResources() {
-		if (resourceMap.size() == 0) {
-			System.out.println("No Available Resources");
+	private void showAvailableTracklimits() {
+		if (tracklimitsMap.size() == 0) {
+			System.out.println("No Available Track Limit Sensors");
 			return;
 		}
-		System.out.println("Available Resources: ");
-		for(Map.Entry<String,Resource> entry : resourceMap.entrySet()) {
+		System.out.println("Available Track Limit Sensors: ");
+		for(Map.Entry<String,TrackLimit> entry : tracklimitsMap.entrySet()) {
 			System.out.println(entry.getValue().toString());
 		}
+	}
+	
+	private void showAvailableFlags() {
+		if (flagsMap.size() == 0) {
+			System.out.println("No Available Flags");
+			return;
+		}
+		System.out.println("Available Track Flags: ");
+		for(Map.Entry<String,Flag> entry : flagsMap.entrySet()) {
+			System.out.println(entry.getValue().toString());
+		}
+	}
+	
+	private void checkFlagColor() {
+		System.out.println("Not yet implemented");
+	}
+	
+	private void changeFlagColor() {
+		System.out.println("Not yet implemented");
 	}
 	
 	private int getCommand() {
@@ -95,9 +133,10 @@ public class Application {
 	
 	public void showMenu() {
 		System.out.print("\nPlease, insert a command: \n"
-				+ "1 - Show Registered Resources.\n"
-				+ "2 - Check flag color"
-				+ "3 - Set flag color"
+				+ "1 - Show Registered Track Limit Sensors.\n"
+				+ "2 - Show Registered Flags\n"
+				+ "3 - Check Flag Color\n"
+				+ "4 - Set flag color\n"
 				+ ""
 				+ "0 - Exit.\n"
 				+ "\n"

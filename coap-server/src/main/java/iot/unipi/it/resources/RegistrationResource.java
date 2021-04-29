@@ -2,7 +2,9 @@ package iot.unipi.it.resources;
 
 import java.net.InetAddress;
 
+import iot.unipi.it.model.Flag;
 import iot.unipi.it.model.Resource;
+import iot.unipi.it.model.TrackLimit;
 
 import org.eclipse.californium.core.CoapClient;
 import org.eclipse.californium.core.CoapResource;
@@ -48,21 +50,27 @@ public class RegistrationResource extends CoapResource {
 					String info = parameters[1]+";"+parameters[2];
 					
 					boolean obs = false;
-					if(parameters.length>3) {
-						if(parameters[3].contains("obs")) {
+					if(responseText.contains("obs")) {
 						obs = true;
-						}
 					}
 					
-					Resource newRes = new Resource("Name", path, addr.getHostAddress(), obs);
-					
-					Application.getSharedInstance().getResourceMap().put(name,newRes);
-					
-//					if(obs==true) {
+					if (name.contains("flag")) {
+						Flag newFlag = new Flag(name, path, addr.getHostAddress(), obs);
+						Application.getSharedInstance().getFlagsMap().put(info, newFlag);
+						System.out.println("\n"+name+" registered");
+					} else {
+						TrackLimit newTracklimit = new TrackLimit(name, path, addr.getHostAddress(), obs);
+						Application.getSharedInstance().getTracklimitsMap().put(name, newTracklimit);
+						System.out.println("\n"+name+" registered");
+//						if(obs==true) {
 //						Interface.observedResources.put(name, new ObservingCoapClient(newRes));	
 //						Interface.observedResources.get(name).startObserving();
 //					}
-					System.out.println("\n"+name+" registered");
+					}
+					
+					
+					
+
 				}
 				
 			}catch(Exception e) {

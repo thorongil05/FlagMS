@@ -5,10 +5,8 @@ public class Flag extends Resource{
 	private String flagColor;
 	private int seconds;
 
-	public Flag(String name, String path, String ip, boolean observable, String flagColor, int seconds) {
+	public Flag(String name, String path, String ip, boolean observable) {
 		super(name, path, ip, observable);
-		this.flagColor = flagColor;
-		this.seconds = seconds;
 	}
 	
 	public String getFlagColor() {
@@ -17,5 +15,13 @@ public class Flag extends Resource{
 	
 	public int getSeconds() {
 		return seconds;
+	}
+	
+	public void setFlagColor(String flagColor) {
+		this.flagColor = flagColor;
+	}
+	
+	public void setSeconds(int seconds) {
+		this.seconds = seconds;
 	}
 }

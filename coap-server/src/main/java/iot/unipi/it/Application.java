@@ -6,6 +6,10 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.californium.core.CoapClient;
+import org.eclipse.californium.core.CoapResponse;
+import org.eclipse.californium.core.coap.MediaTypeRegistry;
+
 import iot.unipi.it.model.Flag;
 import iot.unipi.it.model.Resource;
 import iot.unipi.it.model.TrackLimit;
@@ -113,7 +117,27 @@ public class Application {
 	}
 	
 	private void changeFlagColor() {
-		System.out.println("Not yet implemented");
+		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+		System.out.println("Insert the flag name: ");
+		System.out.print(">> ");
+		String name;
+		try {
+			name = input.readLine();
+			Flag flag = this.flagsMap.get(name);
+			if(flag == null) {
+				System.err.println("No flag with this name exists");
+				return;
+			}
+			CoapClient flagClient = new CoapClient(flag.getCoapURI());
+			CoapResponse response = flagClient.post("color=red&seconds=10", MediaTypeRegistry.TEXT_PLAIN);
+			String code = response.getCode().toString();
+			if(!code.startsWith("2")) {
+				System.err.println("Error:"+code);
+				return;
+			}
+		} catch (IOException e) {
+			System.err.println("Error: " + e.getMessage());
+		}
 	}
 	
 	private int getCommand() {

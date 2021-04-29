@@ -10,25 +10,31 @@ import iot.unipi.it.model.Resource;
 
 public class Application {
 	
-	private static Map<String, Resource> resourceMap = new HashMap<String, Resource>();
 	
-	public static Map<String, Resource> getResourceMap() {
+	private static Application sharedInstance = new Application();
+	
+	public static Application getSharedInstance() {
+		return sharedInstance;
+	}
+	
+	private Map<String, Resource> resourceMap = new HashMap<String, Resource>();
+	
+	public Map<String, Resource> getResourceMap() {
 		return resourceMap;
 	}
+	
 
 	public static void main(String[] args) {
-		
+		Application.getSharedInstance().start();
+	}
+	
+	private void start() {
 		System.out.println("Welcome");
-		
-		
 		runServer();
-
 		System.out.println("Server started");
 		System.out.println("Registration...");
-
 		
 		showMenu();
-		
 		while(true) {
 			int cmd = getCommand();
 			switch(cmd) {
@@ -46,10 +52,9 @@ public class Application {
 					break;
 			}
 		}
-		
 	}
 	
-	public static void runServer() {
+	private void runServer() {
 			
 		new Thread() {
 			public void run() {
@@ -62,7 +67,7 @@ public class Application {
 	
 	// Menu stuff
 	
-	private static void showAvailableResources() {
+	private void showAvailableResources() {
 		if (resourceMap.size() == 0) {
 			System.out.println("No Available Resources");
 			return;
@@ -73,7 +78,7 @@ public class Application {
 		}
 	}
 	
-	private static int getCommand() {
+	private int getCommand() {
 		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 		String line;
 		int intCommand;
@@ -88,7 +93,7 @@ public class Application {
 		}
 	}
 	
-	public static void showMenu() {
+	public void showMenu() {
 		System.out.print("\nPlease, insert a command: \n"
 				+ "1 - Show Registered Resources.\n"
 				+ "0 - Exit.\n"

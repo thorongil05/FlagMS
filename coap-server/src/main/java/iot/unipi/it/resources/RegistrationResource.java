@@ -56,7 +56,7 @@ public class RegistrationResource extends CoapResource {
 					
 					Resource newRes = new Resource("Name", path, obs);
 					
-					Application.getResourceMap().put(name,newRes);
+					Application.getSharedInstance().getResourceMap().put(name,newRes);
 					
 //					if(obs==true) {
 //						Interface.observedResources.put(name, new ObservingCoapClient(newRes));	
@@ -67,6 +67,7 @@ public class RegistrationResource extends CoapResource {
 				
 			}catch(Exception e) {
 				e.printStackTrace();
+				System.err.println(e);
 			}
 		}
 		

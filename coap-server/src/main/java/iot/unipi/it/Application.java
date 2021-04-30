@@ -113,7 +113,28 @@ public class Application {
 	}
 	
 	private void checkFlagColor() {
-		System.out.println("Not yet implemented");
+		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+		System.out.println("Insert the flag name: ");
+		System.out.print(">> ");
+		String name;
+		try {
+			name = input.readLine();
+			Flag flag = this.flagsMap.get(name);
+			if(flag == null) {
+				System.err.println("No flag with this name exists");
+				return;
+			}
+			CoapClient flagClient = new CoapClient(flag.getCoapURI());
+			CoapResponse response = flagClient.get();
+			String code = response.getCode().toString();
+			if(!code.startsWith("2")) {
+				System.err.println("Error:"+code);
+				return;
+			}
+			System.out.println("The color of the flag is " + response.getResponseText());
+		} catch (IOException e) {
+			System.err.println("Error: " + e.getMessage());
+		}
 	}
 	
 	private void changeFlagColor() {

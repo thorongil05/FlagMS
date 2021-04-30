@@ -19,17 +19,18 @@ bool registered = false;
 
 /* Declare and auto-start this file's process */
 
+PROCESS(temporary_yellow_flag,"Restore Green Flag after x seconds of Yellow Flag");
+
 PROCESS(flag_process, "Flag Process"); 
 AUTOSTART_PROCESSES(&flag_process);
+
+extern int actual_flag = 0;
 
 extern coap_resource_t res_flag;
 
 extern process_event_t POST_EVENT;
 
 #define SERVER_EP "coap://[fd00::1]:5683"
-
-// static int yellowFlagDefaultDuration = 20;
-// static bool isPersistentFlag = false;
 
 void client_chunk_handler(coap_message_t *response){
   
@@ -84,12 +85,27 @@ PROCESS_THREAD(flag_process, ev, data){
 
     while(true) {
         PROCESS_WAIT_EVENT();
-        if(ev == POST_EVENT){
-			LOG_INFO("Received a POST request\n");
-			int* s = data;
-			LOG_INFO("Seconds = %d", s);
-		}
     }
 
     PROCESS_END(); 
+}
+
+PROCESS_THREAD(temporary_yellow_flag, ev, data) {
+	static struct etimer yellowFlagTimer;
+	PROCESS_BEGIN();
+
+	while (true) {
+		PROCESS_WAIT_EVENT();
+		if(ev == POST_EVENT) {
+			LOG_INFO("Temporarly Yellow Flag is set\n");
+			etimer_set(&yellowFlagTimer,10 * CLOCK_SECOND);
+			actual_flag = 1;
+		}
+		if(etimer_expired(&yellowFlagTimer)) {
+			LOG_INFO("Timer Expired: flag becomes again green\n");
+			leds_set(LEDS_NUM_TO_MASK(LEDS_GREEN));
+			actual_flag = 0;
+		}
+	}
+	PROCESS_END();
 }

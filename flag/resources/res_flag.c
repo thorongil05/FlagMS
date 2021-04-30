@@ -16,6 +16,8 @@ static void res_post_handler(coap_message_t *request, coap_message_t *response, 
 static void res_event_handler(void);
 
 int actual_flag = 0;
+process_event_t POST_EVENT;
+
 
 EVENT_RESOURCE(res_flag,
 	"title=\"Flag Actuator POST flag=<color>&seconds=<time>\";methods=\"GET,POST \";rt=\"int\";obs\n",
@@ -43,8 +45,11 @@ static void res_get_handler(coap_message_t *request, coap_message_t *response, u
 
 	if (accept== -1)
 		accept = APPLICATION_JSON;
-
-	if(accept == APPLICATION_XML) {
+	if(accept == TEXT_PLAIN) {
+	    coap_set_header_content_format(response, TEXT_PLAIN);
+	    snprintf((char *)buffer, COAP_MAX_CHUNK_SIZE, "actual_flag=%d", trackLimitCrossed);
+	    coap_set_payload(response, (uint8_t *)buffer, strlen((char *)buffer));    
+	} else if(accept == APPLICATION_XML) {
 		coap_set_header_content_format(response, APPLICATION_XML);
  		snprintf((char *)buffer, COAP_MAX_CHUNK_SIZE, "<actual_flag=\"%d\"/>", actual_flag);
 		coap_set_payload(response, buffer, strlen((char *)buffer));
@@ -78,7 +83,7 @@ static void res_post_handler(coap_message_t *request, coap_message_t *response, 
 	len_seconds_parameters = coap_get_post_variable(request, "seconds", &seconds);
 
 	if(len_flag_parameter && len_seconds_parameters) {
-		
+		int s = atoi(seconds);
 		if(strncmp(flag, "green", len_flag_parameter) == 0) {
 			LOG_INFO("The new flag is green\n");
 			leds_set(LEDS_NUM_TO_MASK(LEDS_GREEN));
@@ -86,6 +91,7 @@ static void res_post_handler(coap_message_t *request, coap_message_t *response, 
 		if(strncmp(flag, "yellow", len_flag_parameter) == 0) {
 			LOG_INFO("The new flag is yellow\n");
 			leds_set(LEDS_NUM_TO_MASK(LEDS_YELLOW));
+			process_post(&res_flag, POST_EVENT, &s); //Data is pointer to void, so we can pass any type of pointer
 		}
 		if(strncmp(flag, "red", len_flag_parameter) == 0) {
 			LOG_INFO("The new flag is red\n");

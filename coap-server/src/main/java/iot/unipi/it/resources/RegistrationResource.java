@@ -32,7 +32,7 @@ public class RegistrationResource extends CoapResource {
 		
 		String responseText = response.getResponseText();
 		
-		System.out.println("Response: " + responseText);
+		//System.out.println("Response: " + responseText);
 		
 		String[] resources = responseText.split(",");
 		
@@ -57,11 +57,13 @@ public class RegistrationResource extends CoapResource {
 					if (name.contains("flag")) {
 						Flag newFlag = new Flag(name, path, addr.getHostAddress(), obs);
 						Application.getSharedInstance().getFlagsMap().put(name, newFlag);
-						System.out.println("\n"+name+" registered");
+						System.out.println("\n"+name+" registered\n");
+						System.out.print(">> ");
 					} else {
 						TrackLimit newTracklimit = new TrackLimit(name, path, addr.getHostAddress(), obs);
 						Application.getSharedInstance().getTracklimitsMap().put(name, newTracklimit);
-						System.out.println("\n"+name+" registered");
+						System.out.println("\n"+name+" registered\n");
+						System.out.print(">> ");
 //						if(obs==true) {
 //						Interface.observedResources.put(name, new ObservingCoapClient(newRes));	
 //						Interface.observedResources.get(name).startObserving();

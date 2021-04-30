@@ -23,9 +23,8 @@ PROCESS(flag_process, "Flag Process");
 AUTOSTART_PROCESSES(&flag_process);
 
 extern coap_resource_t res_flag;
-//extern process_event_t POST_EVENT;
 
-extern bool trackLimitCrossed;
+extern process_event_t POST_EVENT;
 
 #define SERVER_EP "coap://[fd00::1]:5683"
 
@@ -85,7 +84,11 @@ PROCESS_THREAD(flag_process, ev, data){
 
     while(true) {
         PROCESS_WAIT_EVENT();
-        
+        if(ev == POST_EVENT){
+			LOG_INFO("Received a POST request\n");
+			int* s = data;
+			LOG_INFO("Seconds = %d", s);
+		}
     }
 
     PROCESS_END(); 

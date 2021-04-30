@@ -128,6 +128,13 @@ public class Application {
 				System.err.println("No flag with this name exists");
 				return;
 			}
+			System.out.println("Insert the flag color: ");
+			System.out.println(">> ");
+			String flagColor = input.readLine();
+			if (!this.isValidFlag(flagColor)){
+				System.out.println("Error: the flag color is not valid.");
+				return;
+			}
 			CoapClient flagClient = new CoapClient(flag.getCoapURI());
 			CoapResponse response = flagClient.post("flag=red&seconds=10", MediaTypeRegistry.TEXT_PLAIN);
 			String code = response.getCode().toString();
@@ -165,6 +172,19 @@ public class Application {
 				+ "0 - Exit.\n"
 				+ "\n"
 				+ ">> ");
+	}
+	
+	private boolean isValidFlag(String flag) {
+		if(flag.equalsIgnoreCase("red")) {
+			return true;
+		}
+		if(flag.equalsIgnoreCase("yellow")) {
+			return true;
+		}
+		if(flag.equalsIgnoreCase("green")) {
+			return true;
+		}
+		return false;
 	}
 
 }

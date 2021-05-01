@@ -24,7 +24,7 @@ PROCESS(temporary_yellow_flag,"Restore Green Flag after x seconds of Yellow Flag
 PROCESS(flag_process, "Flag Process"); 
 AUTOSTART_PROCESSES(&flag_process);
 
-extern int actual_flag = 0;
+extern int actual_flag;
 
 extern coap_resource_t res_flag;
 

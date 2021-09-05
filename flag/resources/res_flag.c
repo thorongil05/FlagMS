@@ -19,9 +19,8 @@ static void res_event_handler(void);
 int actual_flag = 0;
 process_event_t POST_EVENT;
 
-
 EVENT_RESOURCE(res_flag,
-	"title=\"Flag Actuator POST flag=<color>&seconds=<time>\";methods=\"GET,POST \";rt=\"int\";obs\n",
+	"title=\"Flag Actuator\" POST flag=<color>&seconds=<time>\";methods=\"GET,POST \";rt=\"int\";obs\n",
 	res_get_handler,
 	res_post_handler,
     NULL,

@@ -17,7 +17,7 @@ static void res_event_handler(void);
 bool trackLimitCrossed = false;
 
 EVENT_RESOURCE(res_tracklimit,
-	"title=\"Track Limit Sensor\";methods=\"GET\";rt=\"int\";obs\n",
+	"title=\"tls\";methods=\"GET\";rt=\"int\";obs\n",
 	res_get_handler,
 	NULL,
     NULL,

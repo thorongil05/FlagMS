@@ -76,7 +76,7 @@ PROCESS_THREAD(tracklimit_process, ev, data){
 	coap_set_header_uri_path(request, "registration");
     // Set the payload (if needed)
 	char msg[4];
-	//sprintf(msg,"%d",node_id);
+	sprintf(msg,"%d",node_id);
 	coap_set_payload(request, (uint16_t * )msg, sizeof(msg)-1);
 
 	while(!registered){	

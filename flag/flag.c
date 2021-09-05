@@ -19,7 +19,7 @@ bool registered = false;
 
 /* Declare and auto-start this file's process */
 
-extern struct process temporary_yellow_flag;
+extern struct process* temporary_yellow_flag;
 
 PROCESS(temporary_yellow_flag,"Restore Green Flag after x seconds of Yellow Flag");
 

@@ -78,6 +78,7 @@ PROCESS_THREAD(tracklimit_process, ev, data){
     // Set the payload (if needed)
 	char msg[4];
 	sprintf(msg,"%d",node_id);
+    LOG_INFO("Node id = %d\n", node_id);
 	coap_set_payload(request, (uint16_t * )msg, sizeof(msg)-1);
 
 	while(!registered){	

@@ -25,6 +25,9 @@ public class Application {
 	
 	private Map<String, TrackLimit> tracklimitsMap = new HashMap<String, TrackLimit>();
 	private Map<String, Flag> flagsMap = new HashMap<String, Flag>();
+	private Map<String,	ObservableCoapClient> observableClients = new HashMap<String, ObservableCoapClient>();
+	
+	private boolean isObservingMode = false;
 	
 	public Map<String, TrackLimit> getTracklimitsMap() {
 		return tracklimitsMap;
@@ -34,6 +37,17 @@ public class Application {
 		return flagsMap;
 	}
 	
+	public boolean isObservingMode() {
+		return isObservingMode;
+	}
+	
+	public Map<String, ObservableCoapClient> getObservableClients() {
+		return observableClients;
+	}
+	
+	public void setObservingMode(boolean isObservingMode) {
+		this.isObservingMode = isObservingMode;
+	}
 
 	public static void main(String[] args) {
 		Application.getSharedInstance().start();
@@ -64,6 +78,9 @@ public class Application {
 				case 4:
 					changeFlagColor();
 					showMenu();
+					break;
+				case 5:
+					observingResource();
 					break;
 				case 0:
 					System.out.println("Leaving the Application...");
@@ -220,6 +237,32 @@ public class Application {
 			return true;
 		}
 		return false;
+	}
+	
+	private void observingResource() {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		System.out.println("-------- YOU ARE IN OBSERVING MODE --------\\n");
+		for (ObservableCoapClient observable : this.observableClients.values()) {
+			observable.startObserving();
+		}
+		System.out.println("Digit q if you want to quit this mode");
+		this.isObservingMode = true;
+		
+		String c = "";
+		while(true) {
+			try {
+				c = br.readLine();
+				if(c.equals("q")) {
+					for (ObservableCoapClient observable : this.observableClients.values()) {
+						observable.stopObserving();
+					}
+					break;
+				}
+			} catch (IOException e) {
+				System.out.println("Observing mode failed: " + e.getLocalizedMessage());
+			}
+		}
+		return;
 	}
 
 }

@@ -3,6 +3,7 @@ package iot.unipi.it.resources;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
+import java.util.Map;
 
 import iot.unipi.it.model.Flag;
 import iot.unipi.it.model.Resource;
@@ -14,6 +15,7 @@ import org.eclipse.californium.core.CoapResponse;
 import org.eclipse.californium.core.server.resources.CoapExchange;
 
 import iot.unipi.it.Application;
+import iot.unipi.it.ObservableCoapClient;
 
 public class RegistrationResource extends CoapResource {
 
@@ -35,9 +37,7 @@ public class RegistrationResource extends CoapResource {
 		}
 		
 		String responseText = response.getResponseText();
-		
-		System.out.println("\n\nResponse: " + responseText + "\n");
-		
+				
 		String[] resources = responseText.split(",");
 		
 		for(int i = 1; i < resources.length; i++) {
@@ -68,10 +68,10 @@ public class RegistrationResource extends CoapResource {
 						Application.getSharedInstance().getTracklimitsMap().put(name, newTracklimit);
 						System.out.println("\n"+name+" registered\n");
 						System.out.print(">> ");
-//						if(obs==true) {
-//						Interface.observedResources.put(name, new ObservingCoapClient(newRes));	
-//						Interface.observedResources.get(name).startObserving();
-//					}
+						if(obs==true) {
+							Map<String, ObservableCoapClient> observableClients =  Application.getSharedInstance().getObservableClients();
+							observableClients.put(name, new ObservableCoapClient(newTracklimit));
+						}
 					}
 					
 					

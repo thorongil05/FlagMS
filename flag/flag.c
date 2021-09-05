@@ -21,7 +21,8 @@ bool registered = false;
 
 extern struct process* temporary_yellow_flag;
 
-PROCESS(temporary_yellow_flag,"Restore Green Flag after x seconds of Yellow Flag");
+PROCESS(p,"Restore Green Flag after x seconds of Yellow Flag");
+temporary_yellow_flag = p;
 
 PROCESS(flag_process, "Flag Process"); 
 AUTOSTART_PROCESSES(&flag_process);

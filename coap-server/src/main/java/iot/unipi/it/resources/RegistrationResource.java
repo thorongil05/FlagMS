@@ -38,8 +38,7 @@ public class RegistrationResource extends CoapResource {
 		}
 		
 		// Let's get the node ID
-		ByteBuffer wrapped = ByteBuffer.wrap(response.getPayload());
-		int id = wrapped.getInt();
+		int id = fromPayloadToInt(exchange.getRequestText());
 		
 		String responseText = response.getResponseText();
 				
@@ -89,6 +88,13 @@ public class RegistrationResource extends CoapResource {
 				System.err.println(e);
 			}
 		}
+		
+	}
+	
+	public int fromPayloadToInt(String p) {
+		
+		char [] a = p.toCharArray();
+		return Character.getNumericValue(a[0]);
 		
 	}
 	

@@ -63,7 +63,7 @@ public class RegistrationResource extends CoapResource {
 						System.out.println("Insert the name of this flag: ");
 						System.out.println(">> ");
 						flagName = input.readLine();
-						Flag newFlag = new Flag(name, path, addr.getHostAddress(), obs);
+						Flag newFlag = new Flag(flagName, path, addr.getHostAddress(), obs);
 						Application.getSharedInstance().getFlagsMap().put(name, newFlag);
 						System.out.println("\n"+name+" registered\n");
 						System.out.print(">> ");
@@ -72,7 +72,7 @@ public class RegistrationResource extends CoapResource {
 						System.out.println("Insert the name of the tracklimit: ");
 						System.out.println(">> ");
 						trackLimitName = input.readLine();
-						TrackLimit newTracklimit = new TrackLimit(name, path, addr.getHostAddress(), obs);
+						TrackLimit newTracklimit = new TrackLimit(trackLimitName, path, addr.getHostAddress(), obs);
 						Application.getSharedInstance().getTracklimitsMap().put(name, newTracklimit);
 						System.out.println("\n"+name+" registered\n");
 						System.out.print(">> ");

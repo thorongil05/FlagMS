@@ -1,7 +1,7 @@
 #include <stdio.h> 
 #include <stdlib.h> 
 #include <string.h>
-//#include "sys/node-id.h"
+#include "sys/node-id.h" // for the node id
 #include "contiki.h" 
 #include "coap-engine.h"
 #include "coap-blocking-api.h"
@@ -71,7 +71,7 @@ PROCESS_THREAD(flag_process, ev, data){
 	coap_set_header_uri_path(request, "registration");
     // Set the payload (if needed)
 	char msg[4];
-	//sprintf(msg,"%d",node_id);
+	sprintf(msg,"%d",node_id);
 	coap_set_payload(request, (uint16_t * )msg, sizeof(msg)-1);
 
 	while(!registered){	

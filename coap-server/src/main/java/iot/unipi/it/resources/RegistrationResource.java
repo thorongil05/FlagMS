@@ -3,6 +3,7 @@ package iot.unipi.it.resources;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
+import java.nio.ByteBuffer;
 import java.util.Map;
 
 import iot.unipi.it.model.Flag;
@@ -36,6 +37,10 @@ public class RegistrationResource extends CoapResource {
 			return;
 		}
 		
+		// Let's get the node ID
+		ByteBuffer wrapped = ByteBuffer.wrap(response.getPayload());
+		int id = wrapped.getInt();
+		
 		String responseText = response.getResponseText();
 				
 		String[] resources = responseText.split(",");
@@ -59,12 +64,12 @@ public class RegistrationResource extends CoapResource {
 					}
 					
 					if (name.contains("flag")) {
-						Flag newFlag = new Flag(name, path, addr.getHostAddress(), obs);
+						Flag newFlag = new Flag("flag"+id, path, addr.getHostAddress(), obs);
 						Application.getSharedInstance().getFlagsMap().put(name, newFlag);
 						System.out.println("\n"+name+" registered\n");
 						System.out.print(">> ");
 					} else {
-						TrackLimit newTracklimit = new TrackLimit(name, path, addr.getHostAddress(), obs);
+						TrackLimit newTracklimit = new TrackLimit("tl"+id, path, addr.getHostAddress(), obs);
 						Application.getSharedInstance().getTracklimitsMap().put(name, newTracklimit);
 						System.out.println("\n"+name+" registered\n");
 						System.out.print(">> ");

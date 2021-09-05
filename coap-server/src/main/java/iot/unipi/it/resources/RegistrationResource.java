@@ -1,5 +1,7 @@
 package iot.unipi.it.resources;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
 
 import iot.unipi.it.model.Flag;
@@ -20,6 +22,8 @@ public class RegistrationResource extends CoapResource {
 	}
 	
 	public void handleGET(CoapExchange exchange) {
+		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+		
 		exchange.accept();
 		InetAddress addr = exchange.getSourceAddress();
 		CoapClient client = new CoapClient("coap://[" + addr.getHostAddress() + "]:5683/.well-known/core");
@@ -55,11 +59,19 @@ public class RegistrationResource extends CoapResource {
 					}
 					
 					if (name.contains("flag")) {
+						String flagName = "";
+						System.out.println("Insert the name of this flag: ");
+						System.out.println(">> ");
+						flagName = input.readLine();
 						Flag newFlag = new Flag(name, path, addr.getHostAddress(), obs);
 						Application.getSharedInstance().getFlagsMap().put(name, newFlag);
 						System.out.println("\n"+name+" registered\n");
 						System.out.print(">> ");
 					} else {
+						String trackLimitName = "";
+						System.out.println("Insert the name of the tracklimit: ");
+						System.out.println(">> ");
+						trackLimitName = input.readLine();
 						TrackLimit newTracklimit = new TrackLimit(name, path, addr.getHostAddress(), obs);
 						Application.getSharedInstance().getTracklimitsMap().put(name, newTracklimit);
 						System.out.println("\n"+name+" registered\n");

@@ -1,8 +1,8 @@
 #include <stdio.h> 
 #include <stdlib.h> 
 #include <string.h>
-#include "sys/node-id.h" // for the node id
 #include "contiki.h" 
+#include "sys/node-id.h" // for the node id
 #include "coap-engine.h"
 #include "coap-blocking-api.h"
 #include "os/dev/leds.h"

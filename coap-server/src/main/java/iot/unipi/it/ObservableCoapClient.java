@@ -33,6 +33,7 @@ public class ObservableCoapClient extends CoapClient {
 				try {
 					JSONObject jsonOb = (JSONObject) JSONValue.parseWithException(content);
 					if (jsonOb.containsKey("crossed")) {
+						System.out.println(content);
 						boolean value = Boolean.parseBoolean(jsonOb.get("crossed").toString());
 						String message = value ? "limit exceeded" : "limit not exceeded";
 						System.out.println("Res: " + res.getName() + " --> " + message);

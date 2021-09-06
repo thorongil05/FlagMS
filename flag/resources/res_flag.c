@@ -18,7 +18,7 @@ static void res_event_handler(void);
 
 int actual_flag = 0;
 process_event_t POST_EVENT;
-size_t yellowFlagDuration;
+int yellowFlagDuration;
 
 EVENT_RESOURCE(res_flag,
 	"title=\"Flag Actuator\" POST flag=<color>&seconds=<time>\";methods=\"GET,POST \";rt=\"int\";obs\n",
@@ -93,7 +93,8 @@ static void res_post_handler(coap_message_t *request, coap_message_t *response, 
 		if(strncmp(flag, "yellow", len_flag_parameter) == 0) {
 			LOG_INFO("The new flag is yellow\n");
 			leds_set(LEDS_NUM_TO_MASK(LEDS_YELLOW));
-			yellowFlagDuration = *seconds;
+			yellowFlagDuration = (int) *seconds;
+			LOG_INFO("Timer set to: %d\n", yellowFlagDuration);
 			actual_flag = 1;
 			process_post(PROCESS_BROADCAST, POST_EVENT, NULL); //Data is pointer to void, so we can pass any type of pointer
 		}

@@ -65,14 +65,14 @@ public class RegistrationResource extends CoapResource {
 					if (name.contains("flag")) {
 						String flagName = "flag"+id;
 						Flag newFlag = new Flag(flagName, path, addr.getHostAddress(), obs);
-						Application.getSharedInstance().getFlagsMap().put(name, newFlag);
-						System.out.println("\n"+name+" registered\n");
+						Application.getSharedInstance().getFlagsMap().put(flagName, newFlag);
+						System.out.println("\n"+ flagName + " registered\n");
 						System.out.print(">> ");
 					} else {
 						String tlName = "tl"+id;
 						TrackLimit newTracklimit = new TrackLimit(tlName, path, addr.getHostAddress(), obs);
-						Application.getSharedInstance().getTracklimitsMap().put(name, newTracklimit);
-						System.out.println("\n"+name+" registered\n");
+						Application.getSharedInstance().getTracklimitsMap().put(tlName, newTracklimit);
+						System.out.println("\n" + tlName + " registered\n");
 						System.out.print(">> ");
 						if(obs==true) {
 							ObservableCoapClient tl = new ObservableCoapClient(newTracklimit);

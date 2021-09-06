@@ -9,6 +9,9 @@ import java.util.Map;
 import org.eclipse.californium.core.CoapClient;
 import org.eclipse.californium.core.CoapResponse;
 import org.eclipse.californium.core.coap.MediaTypeRegistry;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+import org.json.simple.parser.ParseException;
 
 import iot.unipi.it.model.Flag;
 import iot.unipi.it.model.Resource;
@@ -266,14 +269,25 @@ public class Application {
 	}
 	
 	private String getFlagColor(String message) {
-		int color = Integer.parseInt(message);
-		System.out.println("Flag color: " + color);
-		switch (color) {
-			case 0: return "green";
-			case 1: return "yellow";
-			case 2: return "red";
-			default: return "Uncorrect value";
+		try {
+			JSONObject obj = (JSONObject) JSONValue.parseWithException(message);
+			if (obj.containsKey("actual_flag")) {
+				int color = Integer.parseInt(obj.get("actual_flag").toString());
+				System.out.println("Flag color: " + color);
+				switch (color) {
+					case 0: return "green";
+					case 1: return "yellow";
+					case 2: return "red";
+					default: return "Uncorrect value";
+				}
+			}
+			return "Uncorrect value";
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Uncorrect value";
 		}
+		
 	}
 
 }

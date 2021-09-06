@@ -30,7 +30,7 @@ extern coap_resource_t res_flag;
 
 extern process_event_t POST_EVENT;
 
-extern size_t yellowFlagDuration = 5;
+extern size_t yellowFlagDuration;
 
 #define SERVER_EP "coap://[fd00::1]:5683"
 

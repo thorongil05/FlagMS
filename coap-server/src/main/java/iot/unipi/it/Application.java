@@ -170,7 +170,7 @@ public class Application {
 				return;
 			}
 			System.out.println("Insert the flag color: ");
-			System.out.println(">> ");
+			System.out.print(">> ");
 			String flagColor = input.readLine();
 			if (!this.isValidFlag(flagColor)){
 				System.out.println("Error: the flag color is not valid.");
@@ -179,7 +179,7 @@ public class Application {
 			String postBody = "flag=" + flagColor;
 			if(flagColor.equalsIgnoreCase("yellow")) {
 				System.out.println("Insert the seconds: ");
-				System.out.println(">> ");
+				System.out.print(">> ");
 				int seconds = getCommand();
 				if (seconds != -1) {
 					postBody += "&seconds=" + seconds;
@@ -189,6 +189,7 @@ public class Application {
 			} else {
 				postBody += "&seconds=10";
 			}
+			System.out.println("Post body: " + postBody);
 			CoapClient flagClient = new CoapClient(flag.getCoapURI());
 			CoapResponse response = flagClient.post(postBody, MediaTypeRegistry.TEXT_PLAIN);
 			String code = response.getCode().toString();

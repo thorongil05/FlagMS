@@ -30,6 +30,8 @@ extern coap_resource_t res_flag;
 
 extern process_event_t POST_EVENT;
 
+extern size_t yellowFlagDuration = 5;
+
 #define SERVER_EP "coap://[fd00::1]:5683"
 
 void client_chunk_handler(coap_message_t *response){
@@ -98,7 +100,8 @@ PROCESS_THREAD(temporary_yellow_flag, ev, data) {
 		PROCESS_WAIT_EVENT();
 		if(ev == POST_EVENT) {
 			LOG_INFO("Temporarly Yellow Flag is set\n");
-			etimer_set(&yellowFlagTimer,10 * CLOCK_SECOND);
+			LOG_INFO("Duration: %d\n", yellowFlagDuration);
+			etimer_set(&yellowFlagTimer, yellowFlagDuration * CLOCK_SECOND);
 			actual_flag = 1;
 		}
 		if(etimer_expired(&yellowFlagTimer)) {

@@ -148,7 +148,7 @@ public class Application {
 				System.err.println("Error:"+code);
 				return;
 			}
-			System.out.println("The color of the flag is " + response.getResponseText());
+			System.out.println("The color of the flag is " + this.getFlagColor(response.getResponseText()));
 		} catch (IOException e) {
 			System.err.println("Error: " + e.getMessage());
 		}
@@ -190,7 +190,7 @@ public class Application {
 			CoapResponse response = flagClient.post(postBody, MediaTypeRegistry.TEXT_PLAIN);
 			String code = response.getCode().toString();
 			if(!code.startsWith("2")) {
-				System.err.println("Error:"+code);
+				System.err.println("Error: "+ code);
 				return;
 			}
 		} catch (IOException e) {
@@ -263,6 +263,17 @@ public class Application {
 			}
 		}
 		return;
+	}
+	
+	private String getFlagColor(String message) {
+		int color = Integer.parseInt(message);
+		System.out.println("Flag color: " + color);
+		switch (color) {
+			case 0: return "green";
+			case 1: return "yellow";
+			case 2: return "red";
+			default: return "Uncorrect value";
+		}
 	}
 
 }

@@ -1,3 +1,7 @@
+Docs is in the [wiki](https://github.com/thorongil05/IoT-Project/wiki)
+
+
+
 # Flags Handler
 
 ## Idea

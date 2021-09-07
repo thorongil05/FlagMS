@@ -36,6 +36,9 @@ public class ObservableCoapClient extends CoapClient {
 						System.out.println(content);
 						String message = jsonOb.get("crossed").toString().equalsIgnoreCase("1") ? "limit exceeded" : "limit not exceeded";
 						System.out.println("Res: " + res.getName() + " --> " + message);
+						for (TrackLimit tracklimit : Application.getSharedInstance().getTracklimitsMap().values()) {
+							Application.getSharedInstance().setDangerDefaultFlag(tracklimit);
+						}
 					}
 				} catch (ParseException e) {
 					System.out.println("Error: " + e.getMessage());

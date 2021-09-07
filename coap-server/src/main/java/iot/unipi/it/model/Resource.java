@@ -6,6 +6,7 @@ public class Resource {
     private String path;
     private boolean observable;
     private String ip;
+    private int sector = 1;
     
     public Resource(String name, String path, String ip, boolean observable) {
     	this.name = name;
@@ -16,6 +17,10 @@ public class Resource {
     
     public String getName() {
 		return name;
+	}
+    
+    public int getSector() {
+		return sector;
 	}
     
     public String getPath() {
@@ -29,6 +34,10 @@ public class Resource {
     public String getCoapURI(){ 
     	return "coap://[" + this.ip+"]:5683"+ this.path;
     }
+    
+    public void setSector(int sector) {
+		this.sector = sector;
+	}
     
     @Override
     public String toString() {

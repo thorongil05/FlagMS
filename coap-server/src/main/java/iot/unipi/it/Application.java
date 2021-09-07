@@ -3,7 +3,9 @@ package iot.unipi.it;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.californium.core.CoapClient;
@@ -200,6 +202,26 @@ public class Application {
 		} catch (IOException e) {
 			System.err.println("Error: " + e.getMessage());
 		}
+	}
+	
+	public void setDangerDefaultFlag(TrackLimit source) {
+		String postBody = "flag=yellow&seconds=10";
+		List<Flag> flags = new ArrayList<Flag>();
+		for (Flag flag : this.flagsMap.values()) {
+			if (flag.getSector() == source.getSector()) {
+				flags.add(flag);
+			}
+		}
+		for (Flag flag2 : flags) {
+			CoapClient flagClient = new CoapClient(flag2.getCoapURI());
+			CoapResponse response = flagClient.post(postBody, MediaTypeRegistry.TEXT_PLAIN);
+			String code = response.getCode().toString();
+			if(!code.startsWith("2")) {
+				System.err.println("Error: "+ code);
+				return;
+			}
+		}
+		System.out.println("Yellow flag set on sector: " + source.getSector());
 	}
 	
 	private int getCommand() {

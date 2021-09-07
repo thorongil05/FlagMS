@@ -95,7 +95,7 @@ static void res_post_handler(coap_message_t *request, coap_message_t *response, 
 		if(strncmp(flag, "yellow", len_flag_parameter) == 0) {
 			LOG_INFO("The new flag is yellow\n");
 			leds_set(LEDS_NUM_TO_MASK(LEDS_YELLOW));
-			yellowFlagDuration = seconds[0];
+			yellowFlagDuration = stoi(seconds[0]);
 			LOG_INFO("Timer set to: %d\n", yellowFlagDuration);
 			actual_flag = 1;
 			process_post(PROCESS_BROADCAST, POST_EVENT, NULL); //Data is pointer to void, so we can pass any type of pointer

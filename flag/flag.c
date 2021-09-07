@@ -104,8 +104,8 @@ PROCESS_THREAD(temporary_yellow_flag, ev, data) {
 			etimer_set(&yellowFlagTimer, yellowFlagDuration * CLOCK_SECOND);
 			actual_flag = 1;
 		}
-		bool isLedRed = (leds_get() & (LEDS_NUM_TO_MASK(LEDS_RED))) > 0
-		if(etimer_expired(&yellowFlagTimer) && !isLedRed)) {
+		bool isLedRed = (leds_get() & (LEDS_NUM_TO_MASK(LEDS_RED))) > 0;
+		if(etimer_expired(&yellowFlagTimer) && !isLedRed) {
 			LOG_INFO("Timer Expired: flag becomes again green\n");
 			leds_set(LEDS_NUM_TO_MASK(LEDS_GREEN));
 			actual_flag = 0;

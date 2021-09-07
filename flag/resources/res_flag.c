@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string>
 #include "contiki.h"
 #include "coap-engine.h"
 #include "coap-observe.h"

@@ -212,6 +212,7 @@ public class Application {
 				flags.add(flag);
 			}
 		}
+		System.out.println("Flags to change: " + flags.size());
 		for (Flag flag2 : flags) {
 			CoapClient flagClient = new CoapClient(flag2.getCoapURI());
 			CoapResponse response = flagClient.post(postBody, MediaTypeRegistry.TEXT_PLAIN);

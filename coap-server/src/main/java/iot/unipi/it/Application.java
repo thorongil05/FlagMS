@@ -215,7 +215,9 @@ public class Application {
 		System.out.println("Flags to change: " + flags.size());
 		for (Flag flag2 : flags) {
 			CoapClient flagClient = new CoapClient(flag2.getCoapURI());
+			System.out.println("Uri: " + flag2.getCoapURI());
 			CoapResponse response = flagClient.post(postBody, MediaTypeRegistry.TEXT_PLAIN);
+			System.out.println("Response: " + response.getResponseText());
 			String code = response.getCode().toString();
 			if(!code.startsWith("2")) {
 				System.err.println("Error: "+ code);

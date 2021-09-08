@@ -30,6 +30,7 @@ public class ObservableCoapClient extends CoapClient {
 			
 			public void onLoad(CoapResponse response) {
 				String content = response.getResponseText();
+				System.out.println("Content: " + content);
 				try {
 					JSONObject jsonOb = (JSONObject) JSONValue.parseWithException(content);
 					if (jsonOb.containsKey("crossed")) {

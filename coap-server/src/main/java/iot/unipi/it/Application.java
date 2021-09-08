@@ -114,10 +114,10 @@ public class Application {
 	
 	private void showAvailableTracklimits() {
 		if (tracklimitsMap.size() == 0) {
-			System.out.println("No Available Track Limit Sensors");
+			System.out.println("\nNo Available Track Limit Sensors\n");
 			return;
 		}
-		System.out.println("Available Track Limit Sensors: ");
+		System.out.println("\nAvailable Track Limit Sensors: \n");
 		for(Map.Entry<String,TrackLimit> entry : tracklimitsMap.entrySet()) {
 			System.out.println(entry.getValue().toString());
 		}
@@ -125,10 +125,10 @@ public class Application {
 	
 	private void showAvailableFlags() {
 		if (flagsMap.size() == 0) {
-			System.out.println("No Available Flags");
+			System.out.println("\nNo Available Flags\n");
 			return;
 		}
-		System.out.println("Available Track Flags: ");
+		System.out.println("\nAvailable Track Flags: \n");
 		for(Map.Entry<String,Flag> entry : flagsMap.entrySet()) {
 			System.out.println(entry.getKey() + ": " + entry.getValue().toString());
 		}
@@ -161,7 +161,7 @@ public class Application {
 	
 	private void changeFlagColor() {
 		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-		System.out.println("Insert the flag name: ");
+		System.out.println("\nInsert the flag name: ");
 		System.out.print(">> ");
 		String name;
 		try {

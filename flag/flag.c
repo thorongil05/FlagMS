@@ -109,7 +109,7 @@ PROCESS_THREAD(temporary_yellow_flag, ev, data) {
 			LOG_INFO("Timer Expired: flag becomes again green\n");
 			leds_set(LEDS_NUM_TO_MASK(LEDS_GREEN));
 			actual_flag = 0;
-		} else if (isLedRed) {
+		} else if (etimer_expired(&yellowFlagTimer) && isLedRed) {
 			LOG_INFO("Led is red, the flag cannot become green again.");
 		}
 	}

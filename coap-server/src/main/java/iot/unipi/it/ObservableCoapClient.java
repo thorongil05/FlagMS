@@ -40,11 +40,14 @@ public class ObservableCoapClient extends CoapClient {
 						boolean crossed = jsonOb.get("crossed").toString().equalsIgnoreCase("1");
 						String message = crossed ? "limit exceeded" : "limit not exceeded";
 						System.out.println("Res: " + res.getName() + " --> " + message);
-						if (crossed) {
+						System.out.println("Crossed: " + crossed);
+						if(crossed) {
+							System.out.println("Track limit crossed: activation of the automatic yellow flags...");
 							Collection<TrackLimit> collection = Application.getSharedInstance().getTracklimitsMap().values();
 							for (TrackLimit tracklimit : collection) {
 								Application.getSharedInstance().setDangerDefaultFlag(tracklimit);
 							}
+							System.out.println("Track limit crossed: yellow flag activated");
 						}
 					}
 				} catch (ParseException e) {

@@ -1,5 +1,7 @@
 package iot.unipi.it;
 
+import java.util.Collection;
+
 import org.eclipse.californium.core.CoapClient;
 import org.eclipse.californium.core.CoapHandler;
 import org.eclipse.californium.core.CoapObserveRelation;
@@ -35,10 +37,14 @@ public class ObservableCoapClient extends CoapClient {
 					JSONObject jsonOb = (JSONObject) JSONValue.parseWithException(content);
 					if (jsonOb.containsKey("crossed")) {
 						System.out.println(content);
-						String message = jsonOb.get("crossed").toString().equalsIgnoreCase("1") ? "limit exceeded" : "limit not exceeded";
+						boolean crossed = jsonOb.get("crossed").toString().equalsIgnoreCase("1");
+						String message = crossed ? "limit exceeded" : "limit not exceeded";
 						System.out.println("Res: " + res.getName() + " --> " + message);
-						for (TrackLimit tracklimit : Application.getSharedInstance().getTracklimitsMap().values()) {
-							Application.getSharedInstance().setDangerDefaultFlag(tracklimit);
+						if (crossed) {
+							Collection<TrackLimit> collection = Application.getSharedInstance().getTracklimitsMap().values();
+							for (TrackLimit tracklimit : collection) {
+								Application.getSharedInstance().setDangerDefaultFlag(tracklimit);
+							}
 						}
 					}
 				} catch (ParseException e) {

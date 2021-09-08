@@ -41,17 +41,18 @@ public class ObservableCoapClient extends CoapClient {
 						String message = crossed ? "limit exceeded" : "limit not exceeded";
 						System.out.println("Res: " + res.getName() + " --> " + message);
 						if(crossed) {
-							System.out.println("Track limit crossed: activation of the automatic yellow flags...");
+							System.out.println("***Activation of the automatic yellow flags...");
 							new Thread("Yellow Flag Thread"){
 						        public void run(){
-						          System.out.println("Thread: " + getName() + " running");
+//						          System.out.println("Thread: " + getName() + " running");
 						          Collection<TrackLimit> collection = Application.getSharedInstance().getTracklimitsMap().values();
 						          for (TrackLimit tracklimit : collection) {
 						        	  Application.getSharedInstance().setDangerDefaultFlag(tracklimit);
+						        	  System.out.println("***Automatic yellow flag activated");
 						          }
 						        }
 						      }.start();
-							System.out.println("Track limit crossed: yellow flag activated");
+							
 						}
 					}
 				} catch (ParseException e) {

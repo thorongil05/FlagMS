@@ -270,7 +270,7 @@ public class Application {
 	
 	private void observingResource() {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		System.out.println("-------- YOU ARE IN OBSERVING MODE --------\\n");
+		System.out.println("-------- YOU ARE IN OBSERVING MODE --------\n");
 		for (ObservableCoapClient observable : this.observableClients.values()) {
 			observable.startObserving();
 		}

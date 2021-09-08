@@ -44,6 +44,8 @@ public class Resource {
     	StringBuilder builder = new StringBuilder();
     	builder.append(this.name);
     	builder.append(" - ");
+    	builder.append("sector " + this.sector);
+    	builder.append(" - ");
     	builder.append(this.path);
     	builder.append(" - ");
     	builder.append(" observable: ");

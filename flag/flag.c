@@ -46,7 +46,7 @@ void client_chunk_handler(coap_message_t *response){
 	if(!registered)
 	registered = true;
 
-	int len = coap_get_payload(response, &chunk);
+	coap_get_payload(response, &chunk);
 	// printf("|%.*s", len, (char *)chunk);
 }
 

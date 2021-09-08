@@ -80,12 +80,7 @@ public class RegistrationResource extends CoapResource {
 							observableClients.put(name, tl);
 						}
 					}
-					
-					
-					
-
 				}
-				
 			}catch(Exception e) {
 				e.printStackTrace();
 				System.err.println(e);

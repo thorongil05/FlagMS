@@ -273,7 +273,6 @@ public class Application {
 		}
 		System.out.println("Digit q if you want to quit this mode");
 		this.isObservingMode = true;
-		
 		String c = "";
 		while(true) {
 			try {
@@ -282,13 +281,12 @@ public class Application {
 					for (ObservableCoapClient observable : this.observableClients.values()) {
 						observable.stopObserving();
 					}
-					break;
+					return;
 				}
 			} catch (IOException e) {
 				System.out.println("Observing mode failed: " + e.getLocalizedMessage());
 			}
 		}
-		return;
 	}
 	
 	private String getFlagColor(String message) {
@@ -306,7 +304,6 @@ public class Application {
 			}
 			return "Uncorrect value";
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return "Uncorrect value";
 		}

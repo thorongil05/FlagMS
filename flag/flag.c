@@ -47,13 +47,11 @@ void client_chunk_handler(coap_message_t *response){
 	registered = true;
 
 	int len = coap_get_payload(response, &chunk);
-	printf("|%.*s", len, (char *)chunk);
+	// printf("|%.*s", len, (char *)chunk);
 }
 
 /*---------------------------------------------------------------------------*/
 PROCESS_THREAD(flag_process, ev, data){
-
-	//static struct etimer yellowFlagTimer;
 
     static coap_endpoint_t server_ep;
 	static coap_message_t request[1];
@@ -110,7 +108,7 @@ PROCESS_THREAD(temporary_yellow_flag, ev, data) {
 			leds_set(LEDS_NUM_TO_MASK(LEDS_GREEN));
 			actual_flag = 0;
 		} else if (etimer_expired(&yellowFlagTimer) && isLedRed) {
-			LOG_INFO("Led is red, the flag cannot become green again.");
+			LOG_INFO("Led is red, the flag cannot become green again.\n");
 		}
 	}
 	PROCESS_END();

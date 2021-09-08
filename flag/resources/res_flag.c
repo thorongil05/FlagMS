@@ -22,7 +22,7 @@ process_event_t POST_EVENT;
 int yellowFlagDuration;
 
 EVENT_RESOURCE(res_flag,
-	"title=\"Flag Actuator\" POST flag=<color>&seconds=<time>\";methods=\"GET,POST \";rt=\"int\";obs\n",
+	"title=\"Flag Actuator\" POST flag=<color>&seconds=<time>\";methods=\"GET,POST \";rt=\"int\";\n",
 	res_get_handler,
 	res_post_handler,
     NULL,
@@ -37,7 +37,7 @@ static void res_get_handler(coap_message_t *request, coap_message_t *response, u
 
 
 	if(request != NULL){
-		//LOG_DBG("Observing handler number %d\n", counter); 
+		LOG_DBG("Received GET\n");
 	}
 
 

@@ -42,7 +42,7 @@ void client_chunk_handler(coap_message_t *response){
 	registered = true;
 
 	int len = coap_get_payload(response, &chunk);
-	printf("|%.*s", len, (char *)chunk);
+	// printf("|%.*s", len, (char *)chunk);
 }
 
 // static int yellowFlagDefaultDuration = 20;
@@ -51,7 +51,7 @@ void client_chunk_handler(coap_message_t *response){
 // This function simulates a crossing of the track with a 10% of chance
 bool isCrossed() {
     int p = 1 + rand()%100;
-    LOG_DBG("Random Value p: %d\n",p);
+    // LOG_DBG("Random Value p: %d\n",p);
     return p <= 10;
 }
 

@@ -9,7 +9,7 @@ To run this application, you need to:
     1. "contikier"
     2. cd "tools/cooja"
     3. ant run
-3. on the contiki application, load the file "simulation.csc"
+3. on the contiki application, load the file "simulation.csc" (or "final_simulation.csc" if you want 2 flags and 2 track limits)
 3. on the second terminal, run the script "start-border-router.sh" in the project root to start the border router
 4. on the third terminal, run the script "start.sh" in the project root to start the CLI application
 5. start the simulation on cooja

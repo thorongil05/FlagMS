@@ -158,6 +158,10 @@ public class Application {
 			System.out.println("Insert the resource sector: ");
 			System.out.print(">> ");
 			int sector = getCommand();
+			if (sector < 0) {
+				System.out.println("Sector cannot be negative");
+				return;
+			}
 			res.setSector(sector);
 		} catch (Exception e) {
 			System.err.println("Error: " + e.getMessage());
@@ -213,6 +217,10 @@ public class Application {
 				System.out.println("Insert the seconds: ");
 				System.out.print(">> ");
 				int seconds = getCommand();
+				if (seconds < 0) {
+					System.out.println("Seconds cannot be negative");
+					return;
+				}
 				if (seconds != -1) {
 					postBody += "&seconds=" + seconds;
 				} else {
@@ -223,22 +231,10 @@ public class Application {
 			}
 			if(flagColor.equalsIgnoreCase("red")) {
 				for (Flag _flag : this.getFlagsMap().values()) {
-					CoapClient flagClient = new CoapClient(_flag.getCoapURI());
-					CoapResponse response = flagClient.post(postBody, MediaTypeRegistry.TEXT_PLAIN);
-					String code = response.getCode().toString();
-					if(!code.startsWith("2")) {
-						System.err.println("Error: "+ code);
-						return;
-					}
+					setFlagColor(postBody, _flag);
 				}
 			} else {
-				CoapClient flagClient = new CoapClient(flag.getCoapURI());
-				CoapResponse response = flagClient.post(postBody, MediaTypeRegistry.TEXT_PLAIN);
-				String code = response.getCode().toString();
-				if(!code.startsWith("2")) {
-					System.err.println("Error: "+ code);
-					return;
-				}
+				setFlagColor(postBody, flag);
 			}
 		} catch (IOException e) {
 			System.err.println("Error: " + e.getMessage());
@@ -254,13 +250,7 @@ public class Application {
 			}
 		}
 		for (Flag flag2 : flags) {
-			CoapClient flagClient = new CoapClient(flag2.getCoapURI());
-			CoapResponse response = flagClient.post(postBody, MediaTypeRegistry.TEXT_PLAIN);
-			String code = response.getCode().toString();
-			if(!code.startsWith("2")) {
-				System.err.println("Error: "+ code);
-				return;
-			}
+			setFlagColor(postBody, flag2);
 		}
 		System.out.println("Yellow flag set on sector: " + source.getSector());
 	}

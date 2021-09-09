@@ -134,14 +134,14 @@ public class Application {
 		}
 		System.out.println("\nAvailable Track Flags: \n");
 		for(Map.Entry<String,Flag> entry : flagsMap.entrySet()) {
-			System.out.println(entry.getKey() + ": " + entry.getValue().toString());
+			System.out.println(entry.getValue().toString());
 		}
 	}
 	
 	private void setResourceSector() {
 		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 		try {
-			System.out.println("\nInsert the flag name: ");
+			System.out.println("\nInsert the resource name: ");
 			System.out.print(">> ");
 			String name;
 			name = input.readLine();
@@ -297,8 +297,13 @@ public class Application {
 	}
 	
 	private void observingResource() {
+		System.out.println("\n\nObservable Resources\n");
+		for (ObservableCoapClient coapClient : this.getObservableClients().values()) {
+			System.out.println(coapClient.getRes());
+		}
+		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		System.out.println("-------- YOU ARE IN OBSERVING MODE --------\n");
+		System.out.println("\n-------- YOU ARE IN OBSERVING MODE --------\n");
 		for (ObservableCoapClient observable : this.observableClients.values()) {
 			observable.startObserving();
 		}

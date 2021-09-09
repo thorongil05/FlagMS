@@ -44,11 +44,9 @@ public class ObservableCoapClient extends CoapClient {
 							new Thread("Yellow Flag Thread"){
 						        public void run(){
 //						          System.out.println("Thread: " + getName() + " running");
-						          Collection<TrackLimit> collection = Application.getSharedInstance().getTracklimitsMap().values();
-						          for (TrackLimit tracklimit : collection) {
-						        	  Application.getSharedInstance().setDangerDefaultFlag(tracklimit);
-						        	  System.out.println("***Automatic yellow flag activated\n");
-						          }
+						          TrackLimit trackLimit = Application.getSharedInstance().getTracklimitsMap().get(res.getName());
+						          Application.getSharedInstance().setDangerDefaultFlag(trackLimit);
+					        	  System.out.println("***Automatic yellow flag activated\n");
 						        }
 						      }.start();
 							

@@ -77,7 +77,7 @@ public class RegistrationResource extends CoapResource {
 						if(obs==true) {
 							ObservableCoapClient tl = new ObservableCoapClient(newTracklimit);
 							Map<String, ObservableCoapClient> observableClients =  Application.getSharedInstance().getObservableClients();
-							observableClients.put(name, tl);
+							observableClients.put(tlName, tl);
 						}
 					}
 				}

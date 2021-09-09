@@ -221,13 +221,24 @@ public class Application {
 			} else {
 				postBody += "&seconds=10";
 			}
-			System.out.println("Post body: " + postBody);
-			CoapClient flagClient = new CoapClient(flag.getCoapURI());
-			CoapResponse response = flagClient.post(postBody, MediaTypeRegistry.TEXT_PLAIN);
-			String code = response.getCode().toString();
-			if(!code.startsWith("2")) {
-				System.err.println("Error: "+ code);
-				return;
+			if(flagColor.equalsIgnoreCase("red")) {
+				for (Flag _flag : this.getFlagsMap().values()) {
+					CoapClient flagClient = new CoapClient(_flag.getCoapURI());
+					CoapResponse response = flagClient.post(postBody, MediaTypeRegistry.TEXT_PLAIN);
+					String code = response.getCode().toString();
+					if(!code.startsWith("2")) {
+						System.err.println("Error: "+ code);
+						return;
+					}
+				}
+			} else {
+				CoapClient flagClient = new CoapClient(flag.getCoapURI());
+				CoapResponse response = flagClient.post(postBody, MediaTypeRegistry.TEXT_PLAIN);
+				String code = response.getCode().toString();
+				if(!code.startsWith("2")) {
+					System.err.println("Error: "+ code);
+					return;
+				}
 			}
 		} catch (IOException e) {
 			System.err.println("Error: " + e.getMessage());
@@ -252,6 +263,16 @@ public class Application {
 			}
 		}
 		System.out.println("Yellow flag set on sector: " + source.getSector());
+	}
+	
+	private void setFlagColor(String postBody, Flag flag) {
+		CoapClient flagClient = new CoapClient(flag.getCoapURI());
+		CoapResponse response = flagClient.post(postBody, MediaTypeRegistry.TEXT_PLAIN);
+		String code = response.getCode().toString();
+		if(!code.startsWith("2")) {
+			System.err.println("Error: "+ code);
+			return;
+		}
 	}
 	
 	private int getCommand() {

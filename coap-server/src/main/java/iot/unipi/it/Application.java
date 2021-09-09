@@ -77,14 +77,18 @@ public class Application {
 					showMenu();
 					break;
 				case 3:
-					checkFlagColor();
+					setResourceSector();
 					showMenu();
 					break;
 				case 4:
-					changeFlagColor();
+					checkFlagColor();
 					showMenu();
 					break;
 				case 5:
+					changeFlagColor();
+					showMenu();
+					break;
+				case 6:
 					observingResource();
 					break;
 				case 0:
@@ -131,6 +135,32 @@ public class Application {
 		System.out.println("\nAvailable Track Flags: \n");
 		for(Map.Entry<String,Flag> entry : flagsMap.entrySet()) {
 			System.out.println(entry.getKey() + ": " + entry.getValue().toString());
+		}
+	}
+	
+	private void setResourceSector() {
+		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+		try {
+			System.out.println("\nInsert the flag name: ");
+			System.out.print(">> ");
+			String name;
+			name = input.readLine();
+			Resource res;
+			if(name.contains("flag")) {
+				res = this.flagsMap.get(name);
+			} else {
+				res = this.tracklimitsMap.get(name);
+			}
+			if(res == null) {
+				System.err.println("\nNo resource with this name exists");
+				return;
+			}
+			System.out.println("Insert the resource sector: ");
+			System.out.print(">> ");
+			int sector = getCommand();
+			res.setSector(sector);
+		} catch (Exception e) {
+			System.err.println("Error: " + e.getMessage());
 		}
 	}
 	
@@ -212,12 +242,9 @@ public class Application {
 				flags.add(flag);
 			}
 		}
-		System.out.println("Flags to change: " + flags.size());
 		for (Flag flag2 : flags) {
 			CoapClient flagClient = new CoapClient(flag2.getCoapURI());
-			System.out.println("Uri: " + flag2.getCoapURI());
 			CoapResponse response = flagClient.post(postBody, MediaTypeRegistry.TEXT_PLAIN);
-			System.out.println("Response: " + response.getResponseText());
 			String code = response.getCode().toString();
 			if(!code.startsWith("2")) {
 				System.err.println("Error: "+ code);
@@ -246,9 +273,10 @@ public class Application {
 		System.out.print("\nPlease, insert a command: \n"
 				+ "1 - Show Registered Track Limit Sensors.\n"
 				+ "2 - Show Registered Flags\n"
-				+ "3 - Check Flag Color\n"
-				+ "4 - Set flag color\n"
-				+ "5 - Start Observing\n"
+				+ "3 - Set Resource Sector\n"
+				+ "4 - Check Flag Color\n"
+				+ "5 - Set flag color\n"
+				+ "6 - Start Observing\n"
 				+ ""
 				+ "0 - Exit.\n"
 				+ "\n"

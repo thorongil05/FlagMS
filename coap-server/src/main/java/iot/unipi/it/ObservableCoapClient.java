@@ -32,23 +32,22 @@ public class ObservableCoapClient extends CoapClient {
 			
 			public void onLoad(CoapResponse response) {
 				String content = response.getResponseText();
-				System.out.println("Content: " + content);
+//				System.out.println("Content: " + content);
 				try {
 					JSONObject jsonOb = (JSONObject) JSONValue.parseWithException(content);
 					if (jsonOb.containsKey("crossed")) {
-						System.out.println(content);
 						boolean crossed = jsonOb.get("crossed").toString().equalsIgnoreCase("1");
 						String message = crossed ? "limit exceeded" : "limit not exceeded";
 						System.out.println("Res: " + res.getName() + " --> " + message);
 						if(crossed) {
-							System.out.println("***Activation of the automatic yellow flags...");
+							System.out.println("\n***Activation of the automatic yellow flags...");
 							new Thread("Yellow Flag Thread"){
 						        public void run(){
 //						          System.out.println("Thread: " + getName() + " running");
 						          Collection<TrackLimit> collection = Application.getSharedInstance().getTracklimitsMap().values();
 						          for (TrackLimit tracklimit : collection) {
 						        	  Application.getSharedInstance().setDangerDefaultFlag(tracklimit);
-						        	  System.out.println("***Automatic yellow flag activated");
+						        	  System.out.println("***Automatic yellow flag activated\n");
 						          }
 						        }
 						      }.start();

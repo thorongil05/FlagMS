@@ -1,5 +1,7 @@
 Docs is in the [wiki](https://github.com/thorongil05/IoT-Project/wiki)
 
+[![CodeFactor](https://www.codefactor.io/repository/github/thorongil05/flagms/badge)](https://www.codefactor.io/repository/github/thorongil05/flagms)
+
 # Instructions
 
 To run this application, you need to:
